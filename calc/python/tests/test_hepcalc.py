@@ -11,6 +11,7 @@ ANALYTIC_EXPORTS = sorted(ANALYTIC.glob("*.json")) if ANALYTIC.exists() else []
 def test_value_formatting():
     assert results._fmt({"value": 868.5447, "digits": 4, "unit": "pb"}) == r"868.5\,\mathrm{pb}"
     assert results._fmt({"value": 1.2e-12, "digits": 2}) == r"1.2\times 10^{-12}"
+    assert results._fmt({"value": 2.000003, "decimals": 5}) == "2.00000"
 
 
 @pytest.mark.parametrize("path", ANALYTIC_EXPORTS, ids=lambda p: p.stem)

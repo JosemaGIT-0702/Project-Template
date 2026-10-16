@@ -1,12 +1,11 @@
-"""Physical constants in natural units (hbar = c = 1, GeV).
+"""Numerical constants shared by the Python calculations.
 
-Keep in sync with notes/conventions.md. Cite the PDG edition in the paper.
+Keep in sync with notes/conventions.md. Calculations in units of the AdS radius
+need none; add project constants here (e.g. ratios of Newton constants, flux
+quanta, or PDG values for phenomenology), citing their source, instead of
+hard-coding them in scripts.
 """
 
-ALPHA_EM = 1 / 137.035999  # fine-structure constant at q^2 = 0
-GEV2_TO_PB = 0.3893793721e9  # (hbar c)^2 in GeV^2 pb
-GEV2_TO_NB = GEV2_TO_PB * 1e-3
+import math
 
-M_E = 0.51099895e-3  # GeV
-M_MU = 0.1056583755  # GeV
-M_Z = 91.1876  # GeV
+PI = math.pi

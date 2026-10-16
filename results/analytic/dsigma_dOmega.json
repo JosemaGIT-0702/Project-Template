@@ -1,6 +1,0 @@
-{
-	"name":"dsigma_dOmega",
-	"mathematica":"(alpha^2*(1 + Cos[theta]^2))\/(4*s)",
-	"tex":"\\frac{\\alpha ^2 \\left(\\cos ^2(\\theta )+1\\right)}{4 s}",
-	"generated":"2026-10-16T12:32:55"
-}

@@ -11,7 +11,7 @@ paths:
 - Pipeline scripts: `calc/python/scripts/NN_name.py`, run top-to-bottom, no CLI args needed.
 - Reusable code goes in the `hepcalc` package, with a test in `calc/python/tests/`.
 - Constants from `hepcalc.constants` only; analytic inputs from `hepcalc.bridge`
-  (Mathematica exports) rather than re-typed formulas.
+  (Mathematica exports) and numbers from `hepcalc.results.load_values` rather than re-typed formulas.
 - Results via `hepcalc.results.export_values`; figures via `hepcalc.plotting`
   (`use_paper_style()`, `figure()`, `save()` -> `paper/figures/<name>.pdf`).
 - Every numerical result carries an error estimate or a check (`assert`) against an

@@ -14,10 +14,10 @@ def load(name: str) -> sp.Expr:
     return parse_mathematica(record["mathematica"])
 
 
-def lambdify(name: str, *symbols: str):
-    """Load an expression and turn it into a numpy function of the given symbols.
+def lambdify(name: str, *symbols: str, modules: str = "numpy"):
+    """Load an expression and turn it into a function of the given symbols.
 
-    Example: f = lambdify("dsigma_dOmega", "s", "theta", "alpha")
+    Example: f = lambdify("warp_ex1", "u"); use modules="mpmath" for high-precision work.
     """
     expr = load(name)
-    return sp.lambdify([sp.Symbol(s) for s in symbols], expr, modules="numpy")
+    return sp.lambdify([sp.Symbol(s) for s in symbols], expr, modules=modules)

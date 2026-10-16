@@ -1,7 +1,7 @@
 # CLAUDE.md
 
-HEP research project: a JHEP paper plus the analytic (Mathematica) and numerical
-(Python) calculations behind it. The goal is that **every equation, number and
+High-energy theory research project: a JHEP paper plus the analytic (Mathematica) and
+numerical (Python) calculations behind it. The goal is that **every equation, number and
 figure in the paper is produced by a script in `calc/`**, so the whole paper can be
 regenerated with `make all`.
 
@@ -14,7 +14,8 @@ regenerated with `make all`.
 | `paper/` | JHEP LaTeX. `main.tex` + `sections/*.tex`, notation in `macros.tex`, INSPIRE BibTeX in `references.bib` |
 | `paper/generated/` | **Generated** by calc scripts: `values.tex` (`\val...` macros), `eq_<name>.tex`. Never edit by hand |
 | `paper/figures/` | **Generated** figures (PDF) |
-| `calc/mathematica/Project.wl` | Shared Mathematica package: conventions, `ExportAnalytic`, `ExportValues` |
+| `paper/images/` | Hand-made artwork (diagrams, sketches): the only figures not produced by a script |
+| `calc/mathematica/Project.wl` | Shared Mathematica package: curvature (`RicciTensor`, ...), checks (`AssertZero`), `ExportAnalytic`, `ExportValues` |
 | `calc/mathematica/scripts/NN_*.wl` | Reproducible analytic calculations (run in order) |
 | `calc/mathematica/notebooks/` | Exploratory notebooks -- not part of the pipeline |
 | `calc/python/hepcalc/` | Python package: `bridge` (load Mathematica results), `results`, `plotting`, `constants` |
@@ -55,8 +56,8 @@ in that order; a later script may consume anything an earlier one wrote.
    that come from a calculation are `\input{generated/eq_<name>}`. If you need a new
    number, add it to a script's `ExportValues`/`export_values` call.
 2. **Cross-check everything.** Each new analytic result gets at least one independent
-   check (limit, symmetry, gauge/Ward identity, numerical evaluation, literature).
-   Scripts must fail loudly (`Exit[1]` / `assert`) when a check fails.
+   check (equations of motion, constraints, asymptotics, symmetry, numerics, literature).
+   Scripts must fail loudly (`AssertZero`/`CheckFailed` / `assert`) when a check fails.
 3. **Conventions are law.** Use `notes/conventions.md`. If a reference uses different
    conventions, convert explicitly and note it in the derivation.
 4. **Never cite from memory.** BibTeX comes from INSPIRE (`/add-reference`). If you
@@ -65,6 +66,12 @@ in that order; a later script may consume anything an earlier one wrote.
 6. Generated files (`paper/generated/`, `paper/figures/`, `results/`) ARE committed so
    coauthors/Overleaf/CI can build the paper without Mathematica. Regenerate, never edit.
 7. Do not delete or overwrite `data/raw/`.
+
+## The example
+
+The template ships with arXiv:2605.16168 as a worked example (scripts `01`-`04`, all
+`paper/sections`). `/init-project` removes it; until then, use it as the reference for
+how a calculation, its checks and its exports look.
 
 ## Skills (`.claude/skills/`)
 

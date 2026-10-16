@@ -1,26 +1,29 @@
 % Project-wide notation. Define every symbol used more than once here, so
 % notation changes are one-line edits. Keep in sync with notes/conventions.md.
 
-\usepackage{xspace}
+% --- abbreviations (xspace adds the following space only when needed: "\eg the", "\PT-symmetric") ---
+\newcommand{\eg}{\emph{e.g.}\@\xspace}
+\newcommand{\ie}{\emph{i.e.}\@\xspace}
+\newcommand{\cf}{\emph{cf.}\@\xspace}
+\newcommand{\etc}{\emph{etc.}\@\xspace}
+\newcommand{\etal}{\emph{et al.}\@\xspace}
+\newcommand{\wrt}{w.r.t.\@\xspace}
+\newcommand{\PT}{$PT$\xspace}           % example paper: "\PT-symmetric", "the \PT transformation"
 
 % --- general ---
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\order}[1]{\mathcal{O}\!\left(#1\right)}
-\newcommand{\GeV}{\,\mathrm{GeV}}
-\newcommand{\TeV}{\,\mathrm{TeV}}
-\newcommand{\pb}{\,\mathrm{pb}}
-\newcommand{\fb}{\,\mathrm{fb}}
-\newcommand{\eg}{e.g.\@\xspace}
-\newcommand{\ie}{i.e.\@\xspace}
+\newcommand{\then}{\Rightarrow}
+\newcommand{\im}{i\,}
 
-% --- physics ---
-\newcommand{\MSbar}{\overline{\mathrm{MS}}}
-\newcommand{\aem}{\alpha}
-\newcommand{\as}{\alpha_s}
-\newcommand{\sqrts}{\sqrt{s}}
+% --- quantum mechanics / field theory ---
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\vev}[1]{\left\langle{#1}\right\rangle}
+\newcommand{\cO}{\mathcal{O}}
 \newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\IDB}{\text{IDB}}         % example paper: imaginary distance bound (math only, no xspace)
 
 % --- editing (remove before submission; `grep -n '\\todo' sections/*.tex`) ---
-\usepackage{xcolor}
-\newcommand{\todo}[1]{{\color{red}[TODO: #1]}}
-\newcommand{\authnote}[2]{{\color{blue}[#1: #2]}} % \authnote{initials}{comment}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\authnote}[2]{\textcolor{blue}{[#1: #2]}} % \authnote{initials}{comment}

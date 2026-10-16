@@ -17,11 +17,14 @@ Act as a skeptical second author. The goal is to find errors, not to confirm.
    `verify_derivation(steps)`, or check each equality with `evaluate` (`Simplify[lhs - rhs]`,
    and numerically at random rational points when `Simplify` is inconclusive).
 3. **Independent checks** -- do as many as apply, each as an actual computation:
-   - dimensional analysis / mass dimension of every term;
-   - known limits (massless, soft, collinear, threshold, high-energy, decoupling);
-   - symmetries (crossing, CP, Bose/Fermi, gauge-parameter independence, Ward identities);
-   - positivity / unitarity / reality where required;
-   - pole structure: UV/IR poles cancel or match known anomalous dimensions;
+   - equations of motion: plug the solution into the full second-order equations, with
+     curvature computed from the metric (`Project.wl`), not only the first-order/BPS ones;
+   - constraints and identities: Hamiltonian constraint, Bianchi identities, flux equations;
+   - dimensional analysis / scaling weights of every term;
+   - asymptotics and limits: AdS/flat ends, near-boundary falloffs vs. conformal dimensions,
+     IR behaviour, special members of a family of solutions;
+   - symmetries (diffeomorphism/gauge invariance of fluctuations, parity, Ward identities);
+   - positivity / unitarity / reality where required (spectra, entropies, BF bounds);
    - independent re-derivation by a different route (different gauge, different
      parametrisation, numerical evaluation vs analytic);
    - literature: compare with a published result, converting conventions explicitly.

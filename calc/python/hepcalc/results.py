@@ -2,7 +2,7 @@
 
 Every script writes results/<script-name>.json with entries
 
-    {"MassW": {"value": 80.37, "digits": 4, "unit": "GeV"}, ...}
+    {"MassW": {"value": 80.37, "digits": 4, "unit": "GeV"}, "Slope": {"value": 2.0, "decimals": 5}}
 
 and `make values` (python -m hepcalc.results) turns all of them into
 paper/generated/values.tex, defining \\valMassW etc. Numbers in the paper
@@ -25,10 +25,18 @@ def export_values(name: str, values: dict) -> Path:
     return path
 
 
+def load_values(name: str) -> dict[str, float]:
+    """Read results/<name>.json (written by any script, e.g. Mathematica's ExportValues)."""
+    data = json.loads((RESULTS / f"{name}.json").read_text())
+    return {k: v["value"] for k, v in data.items()}
+
+
 def _fmt(entry: dict) -> str:
     value = entry["value"]
-    digits = entry.get("digits", 4)
-    text = f"{value:.{digits}g}"
+    if "decimals" in entry:  # fixed number of decimals, e.g. fit parameters
+        text = f"{value:.{entry['decimals']}f}"
+    else:  # significant digits
+        text = f"{value:.{entry.get('digits', 4)}g}"
     if "e" in text:
         mant, exp = text.split("e")
         text = rf"{mant}\times 10^{{{int(exp)}}}"
