@@ -69,7 +69,7 @@ in that order; a later script may consume anything an earlier one wrote.
 
 ## The example
 
-The template ships with arXiv:2605.16168 as a worked example (scripts `01`-`04`, all
+The template ships with arXiv:2605.16168 as a worked example (scripts `01`-`05`, all
 `paper/sections`). `/init-project` removes it; until then, use it as the reference for
 how a calculation, its checks and its exports look.
 

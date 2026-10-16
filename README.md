@@ -54,6 +54,7 @@ that its key results are regenerated and checked by the pipeline:
 | `02_ghost_fluctuations.wl` | the Z_η fluctuation equation of app. C, derived from the general gauge-invariant equation and checked against the paper |
 | `03_ghost_spectrum.py` | table 1, example 1: Chebyshev spectral method, convergence-checked |
 | `04_mutual_information.py` | fig. 2 and the large-width fits, slopes checked against the analytic result |
+| `05_ghost_spectrum_ex2.py` | table 1, example 2, following the original notebook: closed-form solution, regularity at the throat, vanishing source |
 
 The schematic figure lives in `paper/images/` (hand-made art is the only exception to
 "every figure is generated"). `/init-project` removes the example.

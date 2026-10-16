@@ -18,7 +18,8 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
 3. **Example**: unless kept, remove it completely:
    - delete `calc/mathematica/scripts/01_wormhole_backgrounds.wl`,
      `calc/mathematica/scripts/02_ghost_fluctuations.wl`,
-     `calc/python/scripts/03_ghost_spectrum.py`, `calc/python/scripts/04_mutual_information.py`;
+     `calc/python/scripts/03_ghost_spectrum.py`, `calc/python/scripts/04_mutual_information.py`,
+     `calc/python/scripts/05_ghost_spectrum_ex2.py`;
    - delete every file in `results/` and `results/analytic/`, every `paper/generated/eq_*.tex`,
      `paper/figures/mutual_information.pdf`, `paper/images/tachyoncondensation.png`
      (keep the `.gitkeep` files);
