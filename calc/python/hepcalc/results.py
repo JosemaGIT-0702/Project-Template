@@ -2,10 +2,10 @@
 
 Every script writes results/<script-name>.json with entries
 
-    {"SigmaTot": {"value": 868.5, "digits": 4, "unit": "pb"}, ...}
+    {"MassW": {"value": 80.37, "digits": 4, "unit": "GeV"}, ...}
 
 and `make values` (python -m hepcalc.results) turns all of them into
-paper/generated/values.tex, defining \\valSigmaTot etc. Numbers in the paper
+paper/generated/values.tex, defining \\valMassW etc. Numbers in the paper
 must come from these macros, never be typed by hand.
 """
 

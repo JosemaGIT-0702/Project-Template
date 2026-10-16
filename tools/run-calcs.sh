@@ -10,9 +10,13 @@ filter="${1:-}"
 langs="${LANGS:-wl py jl sh}"
 
 scripts=$(find calc/*/scripts -maxdepth 1 -type f -name "${filter}[0-9]*" 2>/dev/null \
-  | awk -F/ '{print $NF"\t"$0}' | sort | cut -f2)
+  | awk -F/ '{print $NF"\t"$0}' | sort | cut -f2 || true)
 
-[ -z "$scripts" ] && { echo "no scripts match '${filter}'"; exit 1; }
+if [ -z "$scripts" ]; then
+  # A fresh project has no calculations yet: not an error, unless a filter was asked for.
+  [ -n "$filter" ] && { echo "no scripts match '${filter}'"; exit 1; }
+  echo "no calculation scripts yet (add one with /new-calc)"
+fi
 
 for f in $scripts; do
   ext="${f##*.}"
