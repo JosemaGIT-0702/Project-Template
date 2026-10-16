@@ -17,10 +17,8 @@
       "mcp__mathematica__guide"
     ],
     "deny": [
-      "Edit(data/raw/**)",
-      "Write(data/raw/**)",
-      "Edit(paper/generated/**)",
-      "Write(paper/generated/**)"
+      "Edit(/data/raw/**)",
+      "Edit(/paper/generated/**)"
     ]
   }
 }
