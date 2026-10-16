@@ -1,0 +1,26 @@
+% Project-wide notation. Define every symbol used more than once here, so
+% notation changes are one-line edits. Keep in sync with notes/conventions.md.
+
+\usepackage{xspace}
+
+% --- general ---
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\order}[1]{\mathcal{O}\!\left(#1\right)}
+\newcommand{\GeV}{\,\mathrm{GeV}}
+\newcommand{\TeV}{\,\mathrm{TeV}}
+\newcommand{\pb}{\,\mathrm{pb}}
+\newcommand{\fb}{\,\mathrm{fb}}
+\newcommand{\eg}{e.g.\@\xspace}
+\newcommand{\ie}{i.e.\@\xspace}
+
+% --- physics ---
+\newcommand{\MSbar}{\overline{\mathrm{MS}}}
+\newcommand{\aem}{\alpha}
+\newcommand{\as}{\alpha_s}
+\newcommand{\sqrts}{\sqrt{s}}
+\newcommand{\Tr}{\operatorname{Tr}}
+
+% --- editing (remove before submission; `grep -n '\\todo' sections/*.tex`) ---
+\usepackage{xcolor}
+\newcommand{\todo}[1]{{\color{red}[TODO: #1]}}
+\newcommand{\authnote}[2]{{\color{blue}[#1: #2]}} % \authnote{initials}{comment}

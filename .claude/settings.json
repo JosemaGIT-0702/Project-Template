@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make:*)",
+      "Bash(latexmk:*)",
+      "Bash(uv run:*)",
+      "Bash(uv sync:*)",
+      "Bash(tools/run-calcs.sh:*)",
+      "Bash(curl -s https://inspirehep.net/api/:*)",
+      "Bash(curl -s \"https://inspirehep.net/api/:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "mcp__mathematica__evaluate",
+      "mcp__mathematica__verify_derivation",
+      "mcp__mathematica__status",
+      "mcp__mathematica__guide"
+    ],
+    "deny": [
+      "Edit(data/raw/**)",
+      "Write(data/raw/**)",
+      "Edit(paper/generated/**)",
+      "Write(paper/generated/**)"
+    ]
+  }
+}

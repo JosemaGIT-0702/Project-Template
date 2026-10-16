@@ -1,0 +1,48 @@
+\documentclass[a4paper,11pt]{article}
+\pdfoutput=1 % arXiv: force pdflatex
+\usepackage{jheppub}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{slashed}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{cleveref} % "eq. (2.1)"; use \Cref at sentence start
+
+\input{macros}
+\input{generated/values} % numbers from calc/ -- see results/*.json
+
+\graphicspath{{figures/}}
+
+\title{\boldmath Project title}
+
+\author[a]{First Author,}
+\author[b]{Second Author}
+
+\affiliation[a]{Departamento de F\'isica, Universidad de Oviedo,\\
+  C. Federico Garc\'ia Lorca 18, 33007 Oviedo, Spain}
+\affiliation[b]{Institution,\\Address}
+
+\emailAdd{first.author@uniovi.es}
+\emailAdd{second.author@example.org}
+
+\abstract{Abstract goes here.}
+
+\begin{document}
+\maketitle
+\flushbottom
+
+\input{sections/introduction}
+\input{sections/setup}
+\input{sections/results}
+\input{sections/conclusions}
+
+\acknowledgments
+Acknowledgments and funding.
+
+\appendix
+\input{sections/appendix}
+
+\bibliographystyle{JHEP}
+\bibliography{references}
+
+\end{document}

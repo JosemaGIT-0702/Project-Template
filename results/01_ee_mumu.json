@@ -1,0 +1,12 @@
+{
+	"SqrtSRef":{
+		"value":1.0e1,
+		"digits":2,
+		"unit":"GeV"
+	},
+	"SigmaTotMma":{
+		"value":8.685447698217172e2,
+		"digits":4,
+		"unit":"pb"
+	}
+}

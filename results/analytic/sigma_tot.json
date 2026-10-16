@@ -1,0 +1,6 @@
+{
+	"name":"sigma_tot",
+	"mathematica":"(4*alpha^2*Pi)\/(3*s)",
+	"tex":"\\frac{4 \\pi  \\alpha ^2}{3 s}",
+	"generated":"2026-10-16T12:32:55"
+}

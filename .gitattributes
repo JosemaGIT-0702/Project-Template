@@ -1,0 +1,9 @@
+# Generated files: collapse in diffs/PRs
+paper/generated/** linguist-generated=true
+results/** linguist-generated=true
+paper/jheppub.sty linguist-vendored=true
+paper/JHEP.bst linguist-vendored=true
+
+# Mathematica notebooks are text but noisy; treat as binary for diffs
+*.nb -diff linguist-language=Mathematica
+*.wl linguist-language=Mathematica

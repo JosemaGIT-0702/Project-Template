@@ -1,0 +1,15 @@
+{
+  "SigmaTotNum": {
+    "value": 868.5447698217173,
+    "digits": 4,
+    "unit": "pb"
+  },
+  "SigmaRelDiff": {
+    "value": 2.220446049250313e-16,
+    "digits": 2
+  },
+  "AFB": {
+    "value": 0.0,
+    "digits": 2
+  }
+}
