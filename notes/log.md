@@ -3,6 +3,25 @@
 Newest entries on top. One entry per working session: what was done, what was
 found, what is open. Agents append here via `/log`.
 
+## 2026-10-17
+- Done: replaced the community Mathematica MCP by the official Wolfram MCP server
+  (`Wolfram/AgentTools` 2.2.0, server `Wolfram`, tools `mcp__Wolfram__*`), installed globally per
+  user; no `.mcp.json` in the template (machine-specific paths), install snippet in README.
+  Updated `CLAUDE.md`, `.claude/rules/mathematica.md`, skills (new-calc, verify, sync-results, ...),
+  `.claude/settings.json`.
+- Done: the MCP kernel parses symbols into a private `Sessions`...`` context, which broke
+  `Project.wl` (`Global`r`) and leaked state between runs. `Project.wl` now exports `r`, `x` and
+  provides `ScriptBegin`/`ScriptEnd` (private wiped context, state restored, also on `CheckFailed`);
+  scripts 01 and 02 wrapped in them; new-calc template updated.
+- Results (verified): scripts 01/02 pass under MCP, `wolfram -script` and `wolframscript`; outputs
+  identical to the committed ones (timestamps and ~1e-11 noise in Python values only); a corrupted
+  superpotential in a scratch copy is caught (`wolframscript` exit 1); `make calc` and `make test`
+  (34 passed) OK. Committed as d8c9e18 and pushed to both remotes.
+- Problems: under `wolfram -script` (not `wolframscript`) `$ScriptCommandLine` is empty, so a failed
+  check exits 0 (pre-existing; CI and `make calc` unaffected). Script 02 prints a harmless
+  `FindInstance::vlist` message under MCP only.
+- Next: (1) `/init-project` when starting a real project; (2) example 5 of table 1 (see below).
+
 ## 2026-10-16 (later)
 - Added `05_ghost_spectrum_ex2.py`: table 1, example 2, following the original notebook
   (Wormhole-Spectrum repo). M^2 L^2 = 8.147523, 57.262502, 137.373804 (table: 8.148, 57.26, 137.4).
