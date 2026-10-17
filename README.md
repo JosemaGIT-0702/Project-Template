@@ -33,7 +33,7 @@ calc/mathematica/scripts/01_*.wl ──ExportAnalytic──▶ results/analytic/
 calc/python/scripts/02_*.py ◀── hepcalc.bridge (sympy) ──┘          │
                             ──export_values──▶ results/*.json ──────┤
                             ──plotting.save──▶ paper/figures/*.pdf  │
-                                     make values ◀───────────────────┘
+                                    make values ◀───────────────────┘
                                           ▼
                      paper/generated/values.tex  (\valMISlopeExOne, ...)  ──▶  make paper
 ```
