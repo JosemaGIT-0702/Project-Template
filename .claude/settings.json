@@ -11,10 +11,9 @@
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
-      "mcp__mathematica__evaluate",
-      "mcp__mathematica__verify_derivation",
-      "mcp__mathematica__status",
-      "mcp__mathematica__guide"
+      "mcp__Wolfram__ReadNotebook", 
+      "mcp__Wolfram__SymbolDefinition",
+      "mcp__Wolfram__CodeInspector"
     ],
     "deny": [
       "Edit(/data/raw/**)",

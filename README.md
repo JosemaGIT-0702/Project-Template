@@ -25,6 +25,21 @@ claude              # then run /init-project
 Requirements: TeX Live (`latexmk`, `pdflatex`), [uv](https://docs.astral.sh/uv/),
 Mathematica (optional for building the paper; generated outputs are committed).
 
+To let Claude Code run Mathematica, every collaborator installs the official
+[Wolfram MCP server](https://resources.wolframcloud.com/PacletRepository/resources/Wolfram/MCPServer/tutorial/QuickStartforAICodingApplications.html)
+**once, globally** (the project ships no `.mcp.json`, since it would contain machine-specific
+paths). In a Wolfram Language session (kernel or notebook) run
+
+```wolfram
+PacletInstall["Wolfram/MCPServer"];
+Needs["Wolfram`AgentTools`"];
+InstallMCPServer["ClaudeCode", "WolframLanguage"]
+```
+
+then restart Claude Code and check that `claude mcp get Wolfram` reports `Connected`. The server
+must be registered under the name `Wolfram`: the permission rules in `.claude/settings.json`
+refer to `mcp__Wolfram__*`.
+
 ## How it fits together
 
 ```
@@ -96,8 +111,8 @@ CLAUDE.md         project instructions for the agent
 `CLAUDE.md` describes the project and its non-negotiables (no hand-typed numbers,
 every result cross-checked, conventions in `notes/conventions.md`, INSPIRE-only
 citations). Rules in `.claude/rules/` load automatically when the agent touches
-LaTeX, Mathematica or Python files. Mathematica is driven through the Mathematica MCP
-server (`evaluate(file=...)`), not `wolframscript`.
+LaTeX, Mathematica or Python files. Mathematica is driven through the official Wolfram MCP
+server (installed globally, see Quick start; `WolframLanguageEvaluator`, see `CLAUDE.md`), not `wolframscript`.
 
 | Skill | What it does |
 |---|---|

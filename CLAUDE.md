@@ -45,10 +45,13 @@ in that order; a later script may consume anything an earlier one wrote.
 - `make calc-py` / `make calc ONLY=03` -- run calculations.
 - `make test`, `make lint`.
 - Python: always `uv run ...`, never bare `python` or `pip`. Add deps with `uv add`.
-- **Mathematica: use the Mathematica MCP tools, not the `wolframscript` CLI.**
-  Run a pipeline script with `evaluate(file="<abs path>/calc/mathematica/scripts/NN_x.wl")`,
-  then `make values`. Explore with `evaluate(code)`; check derivations with
-  `verify_derivation(steps)`. (`make calc` uses wolframscript and is for humans/CI.)
+- **Mathematica: use the official Wolfram MCP server (installed globally per user, server `Wolfram`, tools `mcp__Wolfram__*`; setup in README; the project ships no `.mcp.json`), not the `wolframscript` CLI.**
+  Run a pipeline script with `WolframLanguageEvaluator` and the code
+  `Get["<abs path>/calc/mathematica/scripts/NN_x.wl"]`, then `make values`. Scripts isolate
+  themselves with `ScriptBegin`/`ScriptEnd` (private context, state restored even after a failed
+  check), so they behave the same here and under `wolfram -script`. Explore and check
+  derivations with the same tool (`Simplify[lhs - rhs]`, numerics at random points).
+  (`make calc` uses wolframscript and is for humans/CI.)
 
 ## Rules for working in this repo
 

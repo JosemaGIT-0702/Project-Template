@@ -6,7 +6,8 @@ description: Regenerate all calculation outputs and the paper end-to-end, and ch
 # Regenerate and check consistency
 
 1. Run every pipeline script in numeric order (`ls calc/*/scripts/[0-9]*` sorted by basename):
-   - `.wl` -> Mathematica MCP `evaluate(file="<absolute path>")`; check it printed `OK`
+   - `.wl` -> Wolfram MCP `WolframLanguageEvaluator` with
+     `Get["<absolute path>"]`; check it printed `OK`
      and did not `Exit[1]`;
    - `.py` -> `uv run python <file>`;
    - other extensions -> as in `tools/run-calcs.sh`.

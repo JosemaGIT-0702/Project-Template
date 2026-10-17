@@ -22,7 +22,7 @@
 
 Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
 
-ClearAll[r, u, L, r0, r1, r2, a0, eta, eta1, eta2, Aw];
+ScriptBegin["Script01"];
 $Assumptions = L > 0 && Element[{r, u, r0, r1, r2, a0}, Reals];
 
 (* ---------- generic checker for ghost-only domain walls ---------- *)
@@ -150,3 +150,4 @@ ExportValues["01_wormhole_backgrounds", <|
 |>];
 
 Print["01_wormhole_backgrounds: OK  slopes = ", slopes, "  Delta eta = ", deltaEta];
+ScriptEnd[];

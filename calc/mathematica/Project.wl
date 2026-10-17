@@ -2,7 +2,13 @@
 (* Project.wl -- shared definitions for every Mathematica script in this project.
 
    Load it at the top of each script with
-       Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]]
+       Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
+       ScriptBegin["ScriptNN"];   ... calculation ...   ScriptEnd[];
+   ScriptBegin gives the script a private, freshly wiped context, so it behaves identically in
+   `wolfram -script`/wolframscript and in the persistent, context-isolated kernel of the Wolfram
+   MCP server (no clashes between `r`, `x`, ... of different scripts or sessions, no leaked state).
+   The coordinates `r` and `x` are public symbols of this package (Project`r, Project`x), which is
+   what lets DomainWallCoordinates agree with the symbols typed in a script.
 
    Conventions (keep in sync with notes/conventions.md):
      - mostly-plus signature (-,+,...,+)
@@ -14,6 +20,14 @@
 BeginPackage["Project`"];
 
 $ProjectRoot::usage = "$ProjectRoot is the absolute path of the repository root.";
+
+r::usage = "r is the radial coordinate of DomainWallCoordinates (symbol shared by Project.wl and all scripts).";
+x::usage = "x[i] are the boundary coordinates of DomainWallCoordinates (symbols shared by Project.wl and all scripts).";
+ScriptBegin::usage = "ScriptBegin[\"ScriptNN\"] starts a pipeline script: wipes and enters the private context \
+ScriptNN`, drops stale Global`/Sessions` contexts from $ContextPath and resets $Assumptions. \
+Pair with ScriptEnd[] at the end of the script.";
+ScriptEnd::usage = "ScriptEnd[] leaves the script context and restores $Context, $ContextPath and $Assumptions. \
+Called automatically by CheckFailed, and safe to call twice.";
 
 Christoffel::usage = "Christoffel[g, x] gives Gamma^a_{bc} for metric matrix g in coordinates x.";
 RiemannTensor::usage = "RiemannTensor[g, x] gives R^a_{bcd} (conventions in Project.wl header).";
@@ -67,7 +81,7 @@ EinsteinTensor[g_, x_] := Simplify[RicciTensor[g, x] - 1/2 g RicciScalar[g, x]];
 ScalarLaplacian[f_, g_, x_] := Module[{sq = PowerExpand[Sqrt[-Det[g]]], gi = Inverse[g]},
   Simplify[1/sq Sum[D[sq gi[[a, b]] D[f, x[[b]]], x[[a]]], {a, Length[x]}, {b, Length[x]}]]];
 
-DomainWallCoordinates[d_Integer] := Join[{Global`r}, Table[Global`x[i], {i, 0, d - 1}]];
+DomainWallCoordinates[d_Integer] := Join[{r}, Table[x[i], {i, 0, d - 1}]];
 DomainWallMetric[A_, d_Integer] := DiagonalMatrix[Join[{1}, E^(2 A) Join[{-1}, ConstantArray[1, d - 1]]]];
 
 (* ---------- checks ---------- *)
@@ -95,8 +109,27 @@ AssertNumericZero[label_String, expr_] :=
   If[numericallyZero[Flatten[{expr}]], True,
     CheckFailed[label <> "  residual: " <> ToString[Short[expr, 3], InputForm]]];
 
-CheckFailed[msg_String] := (Print["CHECK FAILED: ", msg];
+CheckFailed[msg_String] := (Print["CHECK FAILED: ", msg]; ScriptEnd[];
   If[Length[$ScriptCommandLine] > 0, Exit[1], Abort[]]);
+
+(* ---------- script isolation ---------- *)
+
+$scriptSaved = None;
+
+ScriptBegin[id_String] := Module[{ctx = id <> "`"},
+  ScriptEnd[];                                  (* recover from an earlier aborted run *)
+  $scriptSaved = <|"Script" -> ctx, "ContextPath" -> $ContextPath, "Assumptions" -> $Assumptions|>;
+  Quiet[Remove[Evaluate[ctx <> "*"]], Remove::rmnsm];
+  $ContextPath = Select[$ContextPath, !StringStartsQ[#, "Global`" | "Sessions`"] &];
+  $Assumptions = True;
+  Begin[ctx];
+  ctx];
+
+ScriptEnd[] := If[AssociationQ[$scriptSaved], Module[{s = $scriptSaved},
+  $scriptSaved = None;
+  If[$Context === s["Script"], End[]];          (* pops the Begin of ScriptBegin *)
+  $ContextPath = s["ContextPath"]; $Assumptions = s["Assumptions"];
+  Null]];
 
 (* ---------- export ---------- *)
 

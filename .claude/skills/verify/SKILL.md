@@ -13,8 +13,8 @@ Act as a skeptical second author. The goal is to find errors, not to confirm.
 1. **Locate** the result: the paper equation (`\label`), the script that produces it, any
    derivation in `notes/derivations/`. State it precisely with all conventions
    (`notes/conventions.md`).
-2. **Step check**: if there is a chain of steps, run them through the Mathematica MCP
-   `verify_derivation(steps)`, or check each equality with `evaluate` (`Simplify[lhs - rhs]`,
+2. **Step check**: if there is a chain of steps, check each equality with the Wolfram MCP
+   `WolframLanguageEvaluator` (`Simplify[lhs - rhs]`,
    and numerically at random rational points when `Simplify` is inconclusive).
 3. **Independent checks** -- do as many as apply, each as an actual computation:
    - equations of motion: plug the solution into the full second-order equations, with

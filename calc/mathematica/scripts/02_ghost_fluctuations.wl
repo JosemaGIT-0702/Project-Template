@@ -16,7 +16,7 @@
 
 Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
 
-ClearAll[r, v, s, L, M2, c, eta, z, psi];
+ScriptBegin["Script02"];
 $Assumptions = L > 0 && c > 0 && -1 < v < 1 && -1 < s < 1;
 
 d = 4;
@@ -89,3 +89,4 @@ ExportAnalytic["zeta_ex1_B0", Together[B0]];
 ExportAnalytic["zeta_ex1_B1", Together[B1]];
 
 Print["02_ghost_fluctuations: OK"];
+ScriptEnd[];

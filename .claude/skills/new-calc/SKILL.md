@@ -17,8 +17,8 @@ Arguments: `$ARGUMENTS`
    files), outputs (exact files and value keys).
 4. Implement the calculation **with at least one built-in check** that aborts on failure
    (see `.claude/rules/physics.md`). Develop heavy symbolic steps interactively with
-   `evaluate(code)` first and time them: a script that runs for minutes blocks the MCP kernel.
-5. Run it (Mathematica via MCP `evaluate(file=...)`; Python via `uv run python <file>`),
+   `WolframLanguageEvaluator` first and time them: a script that runs for minutes blocks the MCP kernel.
+5. Run it (Mathematica via Wolfram MCP `WolframLanguageEvaluator` with `Get["<abs path>"]`; Python via `uv run python <file>`),
    then `make values`.
 6. If results belong in the paper, use them via `\val<Key>` / `\input{generated/eq_<name>}`
    and run `make paper`.
@@ -34,6 +34,7 @@ Arguments: `$ARGUMENTS`
    Outputs: results/analytic/<name>.json, results/NN_name.json *)
 
 Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
+ScriptBegin["ScriptNN"];     (* private context + clean state: same behaviour under MCP and wolfram -script *)
 $Assumptions = L > 0 && Element[r, Reals];
 
 result = ...;
@@ -46,6 +47,7 @@ If[!TrueQ[<condition>], CheckFailed["<what>"]];
 ExportAnalytic["<name>", result];
 ExportValues["NN_name", <|"<Key>" -> <|"value" -> ..., "digits" -> 4|>|>];
 Print["NN_name: OK"];
+ScriptEnd[];
 ```
 
 ## Python template

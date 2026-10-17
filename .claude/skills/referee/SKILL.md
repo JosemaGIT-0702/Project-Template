@@ -17,7 +17,7 @@ Report structure:
 1. **Summary** of the paper's claims in 3-5 sentences (if you can't, that is finding #1).
 2. **Major issues** -- physics correctness, unjustified approximations, missing error
    estimates, results that disagree with known limits, claims not supported by the
-   calculations in `calc/`. Verify suspicious equations with the Mathematica MCP
+   calculations in `calc/`. Verify suspicious equations with the Wolfram MCP
    instead of just flagging them.
 3. **Minor issues** -- notation inconsistencies, undefined symbols, figures (axis labels,
    units, legibility), missing/odd citations (check against INSPIRE, not memory).

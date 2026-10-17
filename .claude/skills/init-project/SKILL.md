@@ -41,7 +41,7 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
    and `paper/macros.tex`. Put a short conventions paragraph in `sections/appendix.tex`.
 5. **Extra tools**: follow `calc/other/README.md` for each (directory, runner entry in
    `tools/run-calcs.sh`, a rule file in `.claude/rules/`). For Mathematica packages
-   (xAct, FeynCalc, ...), add the `Needs[...]` to `Project.wl` and check it loads via the MCP.
+   (xAct, FeynCalc, ...), add the `Needs[...]` to `Project.wl` and check it loads via the Wolfram MCP.
 6. **Python**: rename the project in `pyproject.toml` (`name`, keep package `hepcalc`), `uv sync`.
 7. **Verify**: `make calc-py`, `make test` and `make paper` all succeed (with no
    calculations yet, `make calc-py` just prints a note). Report what changed.
