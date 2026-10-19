@@ -1,0 +1,21 @@
+{
+    // The paper is pdflatex-only (arXiv, \pdfoutput=1): build it exactly like `make paper`,
+    // i.e. plain latexmk in paper/, which reads paper/latexmkrc. Overrides user recipes here only.
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk-latexmkrc",
+            "command": "latexmk",
+            "args": [],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (paper/latexmkrc, pdflatex)",
+            "tools": ["latexmk-latexmkrc"]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "first",
+    "latex-workshop.latex.rootFile.doNotPrompt": true,
+    "latex-workshop.latex.search.rootFiles.include": ["paper/main.tex"]
+}
