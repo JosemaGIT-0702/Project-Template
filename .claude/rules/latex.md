@@ -22,7 +22,9 @@ paths:
 - Every displayed equation that is referenced gets a `\label`; end displayed equations
   with punctuation (`\,.` / `\,,`) as part of the sentence.
 - Citations: INSPIRE texkeys only (`Author:YYYYxx`). Never invent a key; use `/add-reference`.
-- `\todo{}` and `\authnote{}{}` are fine in drafts; `/build-paper` lists them.
+- Notes are fine in drafts: `\todo{}`, one command per collaborator (`\JM{}`, ... declared with
+  `\newauthornote{initials}{colour}` in `macros.tex`; add one for any new commenter). Sign your own notes with
+  the user's initials; never delete another author's note unless asked. `\notesfalse` in `main.tex` hides all of them; `/build-paper` lists them.
 - Do not edit `jheppub.sty`, `JHEP.bst`, or anything in `paper/generated/`.
 - After edits, build with `make paper` and fix new warnings (undefined refs/citations,
   overfull boxes > 5pt).

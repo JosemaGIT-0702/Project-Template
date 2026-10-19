@@ -15,7 +15,10 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
    scripts (paths); extra tools needed (xAct, FeynCalc, FORM, Julia, ...);
    whether to keep the example paper (arXiv:2605.16168) for reference.
 2. **Paper**: set `\title`, `\author`, `\affiliation`, `\emailAdd`, `\abstract` and
-   `\acknowledgments` in `paper/main.tex`; remove the "EXAMPLE paper" comment.
+   `\acknowledgments` in `paper/main.tex`; remove the "EXAMPLE paper" comment. In `paper/macros.tex`
+   replace the example's `\newauthornote` lines by one per author (initials as the command name,
+   if it is not an existing LaTeX command; distinct `xcolor` base colours: teal, orange, magenta,
+   violet, olive, brown, cyan; never red, used by `\todo`).
 3. **Example**: unless kept, remove it completely:
    - delete `calc/mathematica/scripts/01_wormhole_backgrounds.wl`,
      `calc/mathematica/scripts/02_ghost_fluctuations.wl`,
