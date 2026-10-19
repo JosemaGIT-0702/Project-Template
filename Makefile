@@ -6,8 +6,10 @@ PAPER := paper/main
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-10s\033[0m %s\n",$$1,$$2}'
 
-setup: ## Create the Python env (uv) and check tools
+setup: ## Create the Python env (uv), register the notebook git filter, check tools
 	uv sync
+	git config filter.nbstrip.clean 'uv run --no-project --quiet python -I tools/nbstrip.py'
+	git config filter.nbstrip.required true
 	@command -v latexmk >/dev/null || echo "WARNING: latexmk not found"
 	@command -v wolframscript >/dev/null || echo "WARNING: wolframscript not found (Mathematica scripts will not run headless)"
 

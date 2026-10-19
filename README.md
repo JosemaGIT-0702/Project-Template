@@ -14,7 +14,7 @@ then:
 ```bash
 git clone git@github.com:<you>/<my-project>.git
 cd <my-project>
-make setup          # uv env + tool check
+make setup          # uv env, notebook git filter, tool check
 make all            # calculations -> values -> paper/main.pdf
 claude              # then run /init-project
 ```
@@ -41,6 +41,14 @@ InstallMCPServer["ClaudeCode", "WolframLanguage"]
 then restart Claude Code and check that `claude mcp get Wolfram` reports `Connected`. The server
 must be registered under the name `Wolfram`: the permission rules in `.claude/settings.json`
 refer to `mcp__Wolfram__*`.
+
+Mathematica notebooks (`*.nb`) are committed **without outputs**: `make setup` registers a git
+filter (`tools/nbstrip.py`) that, when a notebook is staged, removes output/print/message cells,
+the front-end cache and volatile metadata (cell timestamps, UUIDs, `In[n]` labels, window
+geometry). Your working copy keeps its outputs; collaborators re-evaluate after pulling.
+Run `make setup` in every clone (the filter lives in local git config); notebooks committed
+before that are cleaned with `git add --renormalize '*.nb'`, and `make test` fails if a committed
+notebook is not stripped.
 
 ## How it fits together
 

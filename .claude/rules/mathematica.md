@@ -46,3 +46,5 @@ paths:
   kernel hangs, reconnect the server with `/mcp` in Claude Code.
 - Set `$Assumptions` for symbols (positivity, reality) instead of sprinkling `Assuming`.
 - Notebooks in `notebooks/` are exploratory scratch; once a result matters, move it into a script.
+  They are committed without outputs (git clean filter `tools/nbstrip.py`, registered by `make setup`):
+  never rely on a committed notebook's outputs, and re-evaluate a pulled notebook to see them.

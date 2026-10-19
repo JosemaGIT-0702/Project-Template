@@ -18,7 +18,7 @@ regenerated with `make all`.
 | `calc/mathematica/Project.wl` | Pipeline infrastructure only: script isolation (`ScriptBegin`), checks (`AssertZero`), `ExportAnalytic`, `ExportValues`, package loaders (`LoadPackage`, `LoadGeometry`) |
 | `calc/mathematica/packages/` | Physics packages shared by notebooks and scripts, copied unchanged (`supergrav.wl`: curvature for a given metric); see its README |
 | `calc/mathematica/scripts/NN_*.wl` | Reproducible analytic calculations (run in order) |
-| `calc/mathematica/notebooks/` | Exploratory notebooks -- not part of the pipeline |
+| `calc/mathematica/notebooks/` | Exploratory notebooks -- not part of the pipeline; committed without outputs (git filter `tools/nbstrip.py`) |
 | `calc/python/hepcalc/` | Python package: `bridge` (load Mathematica results), `results`, `plotting`, `constants` |
 | `calc/python/scripts/NN_*.py` | Reproducible numerical calculations |
 | `calc/python/tests/` | pytest |
