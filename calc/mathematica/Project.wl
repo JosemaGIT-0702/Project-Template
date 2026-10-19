@@ -53,7 +53,7 @@ interactive/MCP kernel (so the kernel survives).";
 Begin["`Private`"];
 
 $ProjectRoot = FileNameDrop[
-  If[StringQ[$InputFileName] && $InputFileName =!= "", $InputFileName,
+	If[StringQ[$InputFileName] && $InputFileName =!= "", $InputFileName,
      FileNameJoin[{Directory[], "calc", "mathematica", "Project.wl"}]], -3];
 
 (* ---------- packages ---------- *)
@@ -61,67 +61,67 @@ $ProjectRoot = FileNameDrop[
 packageFile[name_String] := FileNameJoin[{$ProjectRoot, "calc", "mathematica", "packages", name <> ".wl"}];
 
 LoadPackage[name_String] := If[FileExistsQ[packageFile[name]], Get[packageFile[name]],
-  CheckFailed["LoadPackage: no package " <> packageFile[name]]];
+	CheckFailed["LoadPackage: no package " <> packageFile[name]]];
 
 (* supergrav.wl reads Global`coord and Global`metric when it is loaded: the one place where Global` is
    used, so that scripts can keep their own private context. *)
 LoadGeometry[coords_List, metric_] := (
-  If[!AllTrue[coords, MatchQ[#, _Symbol] &],
-    CheckFailed["LoadGeometry: coordinates must be plain symbols, got " <> ToString[coords, InputForm]]];
-  If[!(SymmetricMatrixQ[metric] && Dimensions[metric] === {Length[coords], Length[coords]}),
-    CheckFailed["LoadGeometry: metric is not a symmetric " <> ToString[Length[coords]] <> "x" <>
-      ToString[Length[coords]] <> " matrix"]];
-  Quiet[Unprotect["Supergravity`*"]];          (* reload: usage messages of protected symbols *)
-  ClearAll["Supergravity`Private`metricsign"];  (* cached sign of det g, would survive a reload *)
-  Block[{Global`coord = coords, Global`metric = metric}, Get[packageFile["supergrav"]]];
-  coords);
+	If[!AllTrue[coords, MatchQ[#, _Symbol] &],
+		CheckFailed["LoadGeometry: coordinates must be plain symbols, got " <> ToString[coords, InputForm]]];
+	If[!(SymmetricMatrixQ[metric] && Dimensions[metric] === {Length[coords], Length[coords]}),
+		CheckFailed["LoadGeometry: metric is not a symmetric " <> ToString[Length[coords]] <> "x" <>
+			ToString[Length[coords]] <> " matrix"]];
+	Quiet[Unprotect["Supergravity`*"]];          (* reload: usage messages of protected symbols *)
+	ClearAll["Supergravity`Private`metricsign"];  (* cached sign of det g, would survive a reload *)
+	Block[{Global`coord = coords, Global`metric = metric}, Get[packageFile["supergrav"]]];
+	coords);
 
 (* ---------- checks ---------- *)
 
 numericallyZero[flat_List] := Module[{vars, pts, vals},
-  vars = Select[Union[Cases[flat, _Symbol, {-1}]], !NumericQ[#] &];
-  (* random rationals in (0.11, 1.89) that avoid "special" values such as 1 or 1/2 *)
-  pts = Table[Thread[vars -> (RandomInteger[{1100, 18900}, Length[vars]] + 3/7)/10000], {12}];
-  (* asymptotic checks deep in AdS regions need ~100 extra digits to resolve e^{-200} terms *)
-  vals = Block[{$MaxExtraPrecision = 500},
-    Quiet[Max[Abs[N[flat /. #, 40]]] & /@ pts, {N::meprec, Power::infy, Infinity::indet}]];
-  vals = Select[vals, NumericQ[#] && # < Infinity &];   (* skip points on singularities *)
-  Length[vals] >= 6 && Max[vals] < 10^-25];
+	vars = Select[Union[Cases[flat, _Symbol, {-1}]], !NumericQ[#] &];
+	(* random rationals in (0.11, 1.89) that avoid "special" values such as 1 or 1/2 *)
+	pts = Table[Thread[vars -> (RandomInteger[{1100, 18900}, Length[vars]] + 3/7)/10000], {12}];
+	(* asymptotic checks deep in AdS regions need ~100 extra digits to resolve e^{-200} terms *)
+	vals = Block[{$MaxExtraPrecision = 500},
+		Quiet[Max[Abs[N[flat /. #, 40]]] & /@ pts, {N::meprec, Power::infy, Infinity::indet}]];
+	vals = Select[vals, NumericQ[#] && # < Infinity &];   (* skip points on singularities *)
+	Length[vals] >= 6 && Max[vals] < 10^-25];
 
 AssertZero[label_String, expr_] := Module[{flat = Flatten[{expr}], s},
-  (* 1. symbolic, but never let Simplify run away *)
-  s = TimeConstrained[Simplify[flat], 10, $Failed];
-  If[s =!= $Failed && AllTrue[s, # === 0 &], Return[True]];
-  (* 2. inconclusive: 40-digit evaluation at random rational points (positive, O(1)) *)
-  If[numericallyZero[flat], Return[True]];
-  CheckFailed[label <> "  residual: " <> ToString[Short[If[s === $Failed, flat, s], 3], InputForm]]
+	(* 1. symbolic, but never let Simplify run away *)
+	s = TimeConstrained[Simplify[flat], 10, $Failed];
+	If[s =!= $Failed && AllTrue[s, # === 0 &], Return[True]];
+	(* 2. inconclusive: 40-digit evaluation at random rational points (positive, O(1)) *)
+	If[numericallyZero[flat], Return[True]];
+	CheckFailed[label <> "  residual: " <> ToString[Short[If[s === $Failed, flat, s], 3], InputForm]]
 ];
 
 AssertNumericZero[label_String, expr_] :=
-  If[numericallyZero[Flatten[{expr}]], True,
-    CheckFailed[label <> "  residual: " <> ToString[Short[expr, 3], InputForm]]];
+	If[numericallyZero[Flatten[{expr}]], True,
+		CheckFailed[label <> "  residual: " <> ToString[Short[expr, 3], InputForm]]];
 
 CheckFailed[msg_String] := (Print["CHECK FAILED: ", msg]; ScriptEnd[];
-  If[Length[$ScriptCommandLine] > 0, Exit[1], Abort[]]);
+	If[Length[$ScriptCommandLine] > 0, Exit[1], Abort[]]);
 
 (* ---------- script isolation ---------- *)
 
 $scriptSaved = None;
 
 ScriptBegin[id_String] := Module[{ctx = id <> "`"},
-  ScriptEnd[];                                  (* recover from an earlier aborted run *)
-  $scriptSaved = <|"Script" -> ctx, "ContextPath" -> $ContextPath, "Assumptions" -> $Assumptions|>;
-  Quiet[Unprotect[Evaluate[ctx <> "*"]]; Remove[Evaluate[ctx <> "*"]], {Remove::rmnsm, Unprotect::ssym}];
-  $ContextPath = Select[$ContextPath, !StringStartsQ[#, "Global`" | "Sessions`"] &];
-  $Assumptions = True;
-  Begin[ctx];
-  ctx];
+	ScriptEnd[];                                  (* recover from an earlier aborted run *)
+	$scriptSaved = <|"Script" -> ctx, "ContextPath" -> $ContextPath, "Assumptions" -> $Assumptions|>;
+	Quiet[Unprotect[Evaluate[ctx <> "*"]]; Remove[Evaluate[ctx <> "*"]], {Remove::rmnsm, Unprotect::ssym}];
+	$ContextPath = Select[$ContextPath, !StringStartsQ[#, "Global`" | "Sessions`"] &];
+	$Assumptions = True;
+	Begin[ctx];
+	ctx];
 
 ScriptEnd[] := If[AssociationQ[$scriptSaved], Module[{s = $scriptSaved},
-  $scriptSaved = None;
-  If[$Context === s["Script"], End[]];          (* pops the Begin of ScriptBegin *)
-  $ContextPath = s["ContextPath"]; $Assumptions = s["Assumptions"];
-  Null]];
+	$scriptSaved = None;
+	If[$Context === s["Script"], End[]];          (* pops the Begin of ScriptBegin *)
+	$ContextPath = s["ContextPath"]; $Assumptions = s["Assumptions"];
+	Null]];
 
 (* ---------- export ---------- *)
 
@@ -131,28 +131,28 @@ normalise[v_?NumericQ] := <|"value" -> N[v]|>;
 normalise[a_Association] := MapAt[N, a, "value"];
 
 ExportValues[name_String, vals_Association] := Module[{dir, file},
-  dir = FileNameJoin[{$ProjectRoot, "results"}]; ensureDir[dir];
-  file = FileNameJoin[{dir, name <> ".json"}];
-  Export[file, normalise /@ vals, "RawJSON"];
-  file
+	dir = FileNameJoin[{$ProjectRoot, "results"}]; ensureDir[dir];
+	file = FileNameJoin[{dir, name <> ".json"}];
+	Export[file, normalise /@ vals, "RawJSON"];
+	file
 ];
 
 ExportAnalytic[name_String, expr_] := Module[{dir, gen, file},
-  dir = FileNameJoin[{$ProjectRoot, "results", "analytic"}]; ensureDir[dir];
-  gen = FileNameJoin[{$ProjectRoot, "paper", "generated"}]; ensureDir[gen];
-  file = FileNameJoin[{dir, name <> ".json"}];
-  Export[file, <|
-    "name" -> name,
-    "mathematica" -> ToString[expr, InputForm],
-    "tex" -> ToString[TeXForm[expr]],
-    "generated" -> DateString["ISODateTime"]|>, "RawJSON"];
-  Export[FileNameJoin[{gen, "eq_" <> name <> ".tex"}],
-    "% generated by calc/mathematica -- do not edit\n" <> ToString[TeXForm[expr]] <> "\n", "Text"];
-  file
+	dir = FileNameJoin[{$ProjectRoot, "results", "analytic"}]; ensureDir[dir];
+	gen = FileNameJoin[{$ProjectRoot, "paper", "generated"}]; ensureDir[gen];
+	file = FileNameJoin[{dir, name <> ".json"}];
+	Export[file, <|
+		"name" -> name,
+		"mathematica" -> ToString[expr, InputForm],
+		"tex" -> ToString[TeXForm[expr]],
+		"generated" -> DateString["ISODateTime"]|>, "RawJSON"];
+	Export[FileNameJoin[{gen, "eq_" <> name <> ".tex"}],
+		"% generated by calc/mathematica -- do not edit\n" <> ToString[TeXForm[expr]] <> "\n", "Text"];
+	file
 ];
 
 ImportAnalytic[name_String] := ToExpression[
-  Import[FileNameJoin[{$ProjectRoot, "results", "analytic", name <> ".json"}], "RawJSON"]["mathematica"]];
+	Import[FileNameJoin[{$ProjectRoot, "results", "analytic", name <> ".json"}], "RawJSON"]["mathematica"]];
 
 End[];
 EndPackage[];

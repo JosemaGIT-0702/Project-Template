@@ -41,33 +41,33 @@ ghostPotential[W_, etas_, d_] := -1/2 Total[D[W, #]^2 & /@ etas] - d/(4 (d - 1))
    with Ricci computed from the metric. BPS flows must solve them identically once A', eta', A'',
    eta'' are eliminated with the BPS equations: what remains is a function of the scalars only. *)
 bpsSolvesEOM[label_, d_, W_, etas_] := Module[
-  {x = wallCoordinates[d], g = wallMetric[d], n = Length[etas], ef, toFields, rhsA, rhsE, rule1, rule2,
+	{x = wallCoordinates[d], g = wallMetric[d], n = Length[etas], ef, toFields, rhsA, rhsE, rule1, rule2,
    V, ricci, tTilde, residuals},
-  ef = Table[Unique["e"], {n}];
-  toFields = Thread[etas -> Through[ef[r]]];
-  rhsA = -W/(2 (d - 1)) /. toFields;
-  rhsE = -(D[W, #] & /@ etas) /. toFields;
-  rule1 = Join[{Aw'[r] -> rhsA}, Thread[Through[(Derivative[1] /@ ef)[r]] -> rhsE]];
-  rule2 = Join[{Aw''[r] -> (D[rhsA, r] /. rule1)},
-    Thread[Through[(Derivative[2] /@ ef)[r]] -> (D[rhsE, r] /. rule1)]];
-  LoadGeometry[x, g];
-  V = ghostPotential[W, etas, d];
-  ricci = RicciTensor;
-  tTilde = -Sum[Outer[Times, #, #] &[D[f[r], #] & /@ x], {f, ef}] + 2/(d - 1) g (V /. toFields);
-  residuals = Join[Flatten[ricci - 1/2 tTilde],
-    MapThread[scalarLaplacian[#2[r]] + (D[V, #1] /. toFields) &, {etas, ef}]];
-  residuals = residuals /. rule2 /. rule1 /. Thread[Through[ef[r]] -> etas];
-  AssertZero[label <> ": BPS flows solve Einstein + ghost scalar equations", residuals]
+	ef = Table[Unique["e"], {n}];
+	toFields = Thread[etas -> Through[ef[r]]];
+	rhsA = -W/(2 (d - 1)) /. toFields;
+	rhsE = -(D[W, #] & /@ etas) /. toFields;
+	rule1 = Join[{Aw'[r] -> rhsA}, Thread[Through[(Derivative[1] /@ ef)[r]] -> rhsE]];
+	rule2 = Join[{Aw''[r] -> (D[rhsA, r] /. rule1)},
+		Thread[Through[(Derivative[2] /@ ef)[r]] -> (D[rhsE, r] /. rule1)]];
+	LoadGeometry[x, g];
+	V = ghostPotential[W, etas, d];
+	ricci = RicciTensor;
+	tTilde = -Sum[Outer[Times, #, #] &[D[f[r], #] & /@ x], {f, ef}] + 2/(d - 1) g (V /. toFields);
+	residuals = Join[Flatten[ricci - 1/2 tTilde],
+		MapThread[scalarLaplacian[#2[r]] + (D[V, #1] /. toFields) &, {etas, ef}]];
+	residuals = residuals /. rule2 /. rule1 /. Thread[Through[ef[r]] -> etas];
+	AssertZero[label <> ": BPS flows solve Einstein + ghost scalar equations", residuals]
 ];
 
 (* the closed-form profiles solve the BPS equations, eq. (2.7) *)
 checkProfiles[label_, d_, W_, etas_, etaSol_, warp2_] := Module[{sol = Thread[etas -> etaSol]},
-  AssertZero[label <> ": BPS eta", D[etaSol, r] + (D[W, #] & /@ etas /. sol)];
-  AssertZero[label <> ": BPS A", D[Log[warp2]/2, r] + (W /. sol)/(2 (d - 1))]
+	AssertZero[label <> ": BPS eta", D[etaSol, r] + (D[W, #] & /@ etas /. sol)];
+	AssertZero[label <> ": BPS A", D[Log[warp2]/2, r] + (W /. sol)/(2 (d - 1))]
 ];
 
 checkWormhole[label_, d_, W_, etas_, etaSol_, warp2_] := (
-  bpsSolvesEOM[label, d, W, etas]; checkProfiles[label, d, W, etas, etaSol, warp2]);
+	bpsSolvesEOM[label, d, W, etas]; checkProfiles[label, d, W, etas, etaSol, warp2]);
 
 (* Asymptotic coefficients: Limit on arctan profiles takes ~10 s each, so evaluate deep in the
    asymptotic region instead (corrections ~ e^{-200} at |r| = 100 L, far below the 10^-25 tolerance). *)
@@ -84,9 +84,9 @@ warp1 = E^(2 a0)/Sin[eta1Sol/Sqrt[3]];
 checkWormhole["ex1", 4, W1, {eta}, {eta1Sol}, warp1];
 AssertZero["ex1: V vs app. C", ghostPotential[W1, {eta}, 4] + 3 (3 + Cos[2 eta/Sqrt[3]])/L^2];
 AssertNumericZero["ex1: AdS at r -> -oo",
-  atMinusInfinity[warp1 E^(2 (r - r0)/L)] - E^(2 a0)/2];
+	atMinusInfinity[warp1 E^(2 (r - r0)/L)] - E^(2 a0)/2];
 AssertNumericZero["ex1: AdS at r -> +oo",
-  atPlusInfinity[warp1 E^(-2 (r - r0)/L)] - E^(2 a0)/2];
+	atPlusInfinity[warp1 E^(-2 (r - r0)/L)] - E^(2 a0)/2];
 
 (* ---------- example 2: ABJM Coulomb branch, d = 3 ---------- *)
 
@@ -96,9 +96,9 @@ warp2 = E^(2 a0)/Sin[eta2Sol/2]^2;
 checkWormhole["ex2", 3, W2, {eta}, {eta2Sol}, warp2];
 AssertZero["ex2: V vs app. C", ghostPotential[W2, {eta}, 3] + 2 (2 + Cos[eta])/L^2];
 AssertNumericZero["ex2: AdS at r -> -oo",
-  atMinusInfinity[warp2 E^(2 (r - r0)/L)] - E^(2 a0)/4];
+	atMinusInfinity[warp2 E^(2 (r - r0)/L)] - E^(2 a0)/4];
 AssertNumericZero["ex2: AdS at r -> +oo",
-  atPlusInfinity[warp2 E^(-2 (r - r0)/L)] - E^(2 a0)/4];
+	atPlusInfinity[warp2 E^(-2 (r - r0)/L)] - E^(2 a0)/4];
 
 (* ---------- example 5: GPPZ, d = 4, two ghosts ---------- *)
 
@@ -107,43 +107,43 @@ eta5Sol = {2 Sqrt[3] ArcTan[E^((r - r1)/L)], 2 ArcTan[E^(3 (r - r2)/L)]};
 warp5 = E^(2 a0) Cosh[(r - r1)/L] Cosh[3 (r - r2)/L]^(1/3);
 checkWormhole["ex5", 4, W5, {eta1, eta2}, eta5Sol, warp5];
 AssertNumericZero["ex5: AdS at r -> -oo",
-  atMinusInfinity[warp5 E^((2 r - r1 - r2)/L)] - E^(2 a0)/2^(4/3)];
+	atMinusInfinity[warp5 E^((2 r - r1 - r2)/L)] - E^(2 a0)/2^(4/3)];
 AssertNumericZero["ex5: AdS at r -> +oo",
-  atPlusInfinity[warp5 E^(-(2 r - r1 - r2)/L)] - E^(2 a0)/2^(4/3)];
+	atPlusInfinity[warp5 E^(-(2 r - r1 - r2)/L)] - E^(2 a0)/2^(4/3)];
 
 (* ---------- Minkowski boundaries (sec. 4.2): symmetric wormholes, unit boundary metric ---------- *)
 
 warpMink = <|
-  "ex1" -> {4, warp1 /. {r0 -> 0, a0 -> Log[2]/2}, 2 Cosh[2 u]},
-  "ex2" -> {3, warp2 /. {r0 -> 0, a0 -> Log[4]/2}, 4 Cosh[u]^2},
-  "ex5" -> {4, warp5 /. {r1 -> 0, r2 -> 0, a0 -> Log[2^(4/3)]/2}, 2^(4/3) Cosh[u] Cosh[3 u]^(1/3)}|>;
+	"ex1" -> {4, warp1 /. {r0 -> 0, a0 -> Log[2]/2}, 2 Cosh[2 u]},
+	"ex2" -> {3, warp2 /. {r0 -> 0, a0 -> Log[4]/2}, 4 Cosh[u]^2},
+	"ex5" -> {4, warp5 /. {r1 -> 0, r2 -> 0, a0 -> Log[2^(4/3)]/2}, 2^(4/3) Cosh[u] Cosh[3 u]^(1/3)}|>;
 
 slopes = KeyValueMap[Function[{ex, data}, Module[{d, w, paper, A, A0},
-    {d, w, paper} = data;
-    w = w /. r -> L u;
-    AssertZero[ex <> ": Minkowski warp factor vs sec. 4.2", w - paper];
-    AssertNumericZero[ex <> ": unit boundary metric", (paper E^(-2 u) /. u -> 100) - 1];
-    A = Log[paper]/2;
-    AssertZero[ex <> ": throat at u = 0", D[A, u] /. u -> 0];
-    If[!TrueQ[(D[A, {u, 2}] /. u -> 0) > 0], CheckFailed[ex <> ": throat is not a minimum"]];
-    ExportAnalytic["warp_" <> ex, paper];               (* in u = r/L, for Python *)
-    ExportAnalytic["warp_" <> ex <> "_r", paper /. u -> r/L];  (* in r, for the paper *)
-    (* large-width mutual information slope, eq. (4.21): I/(C V) ~ m Delta l / L, m = e^{(d-1)A(0)}/2 *)
-    ex -> FullSimplify[E^((d - 1) A /. u -> 0)/2]]], warpMink];
+		{d, w, paper} = data;
+		w = w /. r -> L u;
+		AssertZero[ex <> ": Minkowski warp factor vs sec. 4.2", w - paper];
+		AssertNumericZero[ex <> ": unit boundary metric", (paper E^(-2 u) /. u -> 100) - 1];
+		A = Log[paper]/2;
+		AssertZero[ex <> ": throat at u = 0", D[A, u] /. u -> 0];
+		If[!TrueQ[(D[A, {u, 2}] /. u -> 0) > 0], CheckFailed[ex <> ": throat is not a minimum"]];
+		ExportAnalytic["warp_" <> ex, paper];               (* in u = r/L, for Python *)
+		ExportAnalytic["warp_" <> ex <> "_r", paper /. u -> r/L];  (* in r, for the paper *)
+		(* large-width mutual information slope, eq. (4.21): I/(C V) ~ m Delta l / L, m = e^{(d-1)A(0)}/2 *)
+		ex -> FullSimplify[E^((d - 1) A /. u -> 0)/2]]], warpMink];
 
 (* ---------- imaginary distance travelled by the scalars vs the bound of sec. 5 ---------- *)
 
 deltaEta = <|
-  "ex1" -> Subtract @@ Reverse[endpoints[eta1Sol]],
-  "ex2" -> Subtract @@ Reverse[endpoints[eta2Sol]],
-  "ex5" -> Norm[Subtract @@ Reverse[endpoints[eta5Sol]]]|>;
+	"ex1" -> Subtract @@ Reverse[endpoints[eta1Sol]],
+	"ex2" -> Subtract @@ Reverse[endpoints[eta2Sol]],
+	"ex5" -> Norm[Subtract @@ Reverse[endpoints[eta5Sol]]]|>;
 (* the exact endpoints agree with the profiles deep in each asymptotic region *)
 AssertNumericZero["eta endpoints",
-  Flatten[{atMinusInfinity[#] - endpoints[#][[1]], atPlusInfinity[#] - endpoints[#][[2]]} & /@
-    {eta1Sol, eta2Sol, eta5Sol}]];
+	Flatten[{atMinusInfinity[#] - endpoints[#][[1]], atPlusInfinity[#] - endpoints[#][[2]]} & /@
+		{eta1Sol, eta2Sol, eta5Sol}]];
 idbUpper[d_] := Pi Sqrt[2 d/(d - 1)];
 Scan[If[!TrueQ[deltaEta[#[[1]]] > idbUpper[#[[2]]]], CheckFailed[#[[1]] <> ": Delta eta below IDB"]] &,
-  {{"ex1", 4}, {"ex2", 3}, {"ex5", 4}}];
+	{{"ex1", 4}, {"ex2", 3}, {"ex5", 4}}];
 
 ExportAnalytic["potential_ex1", -3 (3 + Cos[2 eta/Sqrt[3]])/L^2];
 ExportAnalytic["potential_ex2", -2 (2 + Cos[eta])/L^2];
@@ -152,9 +152,9 @@ ExportAnalytic["idb_upper_d4", idbUpper[4]];
 ExportAnalytic["idb_upper_d3", idbUpper[3]];
 
 ExportValues["01_wormhole_backgrounds", <|
-  "MISlopeAnalyticExOne" -> <|"value" -> slopes[[1]][[2]], "digits" -> 6|>,
-  "MISlopeAnalyticExTwo" -> <|"value" -> slopes[[2]][[2]], "digits" -> 6|>,
-  "MISlopeAnalyticExFive" -> <|"value" -> slopes[[3]][[2]], "digits" -> 6|>
+	"MISlopeAnalyticExOne" -> <|"value" -> slopes[[1]][[2]], "digits" -> 6|>,
+	"MISlopeAnalyticExTwo" -> <|"value" -> slopes[[2]][[2]], "digits" -> 6|>,
+	"MISlopeAnalyticExFive" -> <|"value" -> slopes[[3]][[2]], "digits" -> 6|>
 |>];
 
 Print["01_wormhole_backgrounds: OK  slopes = ", slopes, "  Delta eta = ", deltaEta];

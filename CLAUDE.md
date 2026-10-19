@@ -70,6 +70,8 @@ in that order; a later script may consume anything an earlier one wrote.
 6. Generated files (`paper/generated/`, `paper/figures/`, `results/`) ARE committed so
    coauthors/Overleaf/CI can build the paper without Mathematica. Regenerate, never edit.
 7. Do not delete or overwrite `data/raw/`.
+8. **Indent with tabs** in all code, LaTeX and JSON (`.editorconfig`); spaces only to align
+   within a line. Exceptions: YAML and Markdown (spaces), vendored/INSPIRE files.
 
 ## The example
 

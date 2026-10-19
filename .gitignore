@@ -39,4 +39,6 @@ literature/pdf/
 .vscode/*
 # .vscode/settings.json is shared: LaTeX Workshop builds with paper/latexmkrc (pdflatex)
 !.vscode/settings.json
+# .vscode/extensions.json recommends the extensions settings.json relies on (Ruff formatter)
+!.vscode/extensions.json
 *.swp

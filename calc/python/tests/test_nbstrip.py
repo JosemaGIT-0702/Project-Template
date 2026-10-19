@@ -10,7 +10,7 @@ nbstrip = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(nbstrip)
 
 TRACKED = subprocess.run(
-    ["git", "ls-files", "*.nb"], cwd=ROOT, capture_output=True, text=True, check=True
+	["git", "ls-files", "*.nb"], cwd=ROOT, capture_output=True, text=True, check=True
 ).stdout.split()
 
 SAMPLE = r"""(* Content-type: application/vnd.wolfram.mathematica *)
@@ -59,26 +59,44 @@ CellTagsIndex->{}
 
 
 def test_strips_outputs_cache_and_metadata():
-    out = nbstrip.strip_notebook(SAMPLE)
-    for gone in ("Output", '], "Print"', "CellChangeTimes", "ExpressionUUID", "CellLabel",
-                 "WindowSize", "FrontEndVersion", "CacheID", "Internal cache"):
-        assert gone not in out, gone
-    for kept in ('"Title"', "(* not a comment *)", r'\"\<hi]\>\"', '"1", "+", "1"',
-                 'StyleDefinitions->"Default.nb"'):
-        assert kept in out, kept
-    assert out.count("CellGroupData") == 1  # input-only groups unwrapped, output-only group dropped
-    assert ", ," not in out.replace("\n", " ") and ",\n\n}" not in out
-    assert nbstrip.strip_notebook(out) == out
+	out = nbstrip.strip_notebook(SAMPLE)
+	for gone in (
+		"Output",
+		'], "Print"',
+		"CellChangeTimes",
+		"ExpressionUUID",
+		"CellLabel",
+		"WindowSize",
+		"FrontEndVersion",
+		"CacheID",
+		"Internal cache",
+	):
+		assert gone not in out, gone
+	for kept in (
+		'"Title"',
+		"(* not a comment *)",
+		r"\"\<hi]\>\"",
+		'"1", "+", "1"',
+		'StyleDefinitions->"Default.nb"',
+	):
+		assert kept in out, kept
+	assert out.count("CellGroupData") == 1  # input-only groups unwrapped, output-only group dropped
+	assert ", ," not in out.replace("\n", " ") and ",\n\n}" not in out
+	assert nbstrip.strip_notebook(out) == out
 
 
 def test_rejects_non_notebook():
-    with pytest.raises(ValueError):
-        nbstrip.strip_notebook("Notebook[{Cell[\"x\", \"Input\"]")
+	with pytest.raises(ValueError):
+		nbstrip.strip_notebook('Notebook[{Cell["x", "Input"]')
 
 
 @pytest.mark.parametrize("path", TRACKED)
 def test_committed_notebooks_are_stripped(path):
-    """Fails if a notebook was committed from a clone without `make setup` (no git filter)."""
-    blob = subprocess.run(["git", "show", f":{path}"], cwd=ROOT, capture_output=True, check=True).stdout
-    text = blob.decode("latin-1")
-    assert nbstrip.strip_notebook(text) == text, f"{path}: run `make setup && git add --renormalize '*.nb'`"
+	"""Fails if a notebook was committed from a clone without `make setup` (no git filter)."""
+	blob = subprocess.run(
+		["git", "show", f":{path}"], cwd=ROOT, capture_output=True, check=True
+	).stdout
+	text = blob.decode("latin-1")
+	assert nbstrip.strip_notebook(text) == text, (
+		f"{path}: run `make setup && git add --renormalize '*.nb'`"
+	)

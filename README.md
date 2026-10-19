@@ -114,7 +114,8 @@ CLAUDE.md         project instructions for the agent
 | `make values` | rebuild `paper/generated/values.tex` |
 | `make paper` / `make watch` | build the PDF |
 | `make all` | calc + paper |
-| `make test` / `make lint` | pytest, ruff, chktex |
+| `make test` / `make lint` | pytest, ruff (lint + format check), chktex |
+| `make format` | auto-format Python with ruff (VS Code also does it on save) |
 | `make arxiv` | flat tarball for arXiv submission in `build/` |
 
 ## Working with Claude Code

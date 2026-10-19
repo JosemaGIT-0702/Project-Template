@@ -1,0 +1,7 @@
+{
+	"recommendations": [
+		"charliermarsh.ruff",
+		"james-yu.latex-workshop",
+		"editorconfig.editorconfig"
+	]
+}

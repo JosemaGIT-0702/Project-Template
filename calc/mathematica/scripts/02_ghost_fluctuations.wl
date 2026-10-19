@@ -77,7 +77,7 @@ AssertZero["psi eq: linear in psi", D[eqS, P0, P0]];
 den = (s - 2) s ((s - 2) s + 26) + 41;
 A0paper = 32 (3 (s - 1) s^2 + s + 7)/den - 10 s + 24/(s - 3) - 2;
 B0paper = -64 (s - 3)/((s - 2) s + 5)^2 - 32/((s - 2) s + 5) - 32 (s ((s - 15) s + 39) - 41)/den +
-  28/(s - 3) - 32/(s - 3)^2 - 18;
+	28/(s - 3) - 32/(s - 3)^2 - 18;
 B1paper = 8 (1 - s^2)/den;
 AssertZero["A0 vs (C.10)", A0 - A0paper];
 AssertZero["A1 = 0", A1];

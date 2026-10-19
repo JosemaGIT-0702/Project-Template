@@ -17,4 +17,4 @@ paths:
 - Every numerical result carries an error estimate or a check (`assert`) against an
   analytic limit / independent method. Report integration/MC uncertainties.
 - Vectorise with numpy; for expensive scans cache to `data/processed/` and note it.
-- Run `make test` and `make lint` before declaring a task done.
+- Run `make format`, `make test` and `make lint` before declaring a task done.
