@@ -13,6 +13,7 @@ need nothing outside the repository. To update one, copy the new version over an
 | Package | What it provides | Loaded with |
 |---|---|---|
 | `supergrav.wl` | tensor calculus for one fixed metric: `Christoffel`, `Riemann`, `RicciTensor`, `RicciScalar`, `Einstein`, `Weyl`, `covariant`, `divergence`, `scalarLaplacian`, `Lie`, `raise`, `lower`, `contract`, `symmetrize`, ... (context `Supergravity``) | `LoadGeometry[coords, metric]` |
+| `wormholes.wl` | EXAMPLE project package: superpotentials, BPS profiles and warp factors of the example wormholes (`GhostSuperpotential`, `GhostFlow`, `GhostWarp`, ...; context `Wormholes``), shared by scripts 01, 02, 06 | `LoadPackage["wormholes"]` |
 | *other* `name.wl` | | `LoadPackage["name"]` |
 
 ## Using them

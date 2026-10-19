@@ -1,0 +1,6 @@
+{
+	"name":"ghost_ex5_Q22",
+	"mathematica":"3 + 4\/(1 - 2*Cosh[2*u]) - (3*Csch[u]^2)\/2 - Sech[u]^2\/2 + 6*Sech[2*u]^2",
+	"tex":"\\frac{4}{1-2 \\cosh (2 u)}-\\frac{3}{2} \\text{csch}^2(u)-\\frac{\\text{sech}^2(u)}{2}+6 \\text{sech}^2(2 u)+3",
+	"generated":"2026-10-19T20:29:21"
+}

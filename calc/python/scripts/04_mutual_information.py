@@ -1,13 +1,13 @@
 """EXAMPLE numerics (from arXiv:2605.16168; /init-project removes it).
 
 Holographic mutual information of a strip between the two boundaries of the
-wormholes of examples 1, 2, 5 (sec. 4.2): eqs. (4.15) and (4.16) evaluated
+wormholes of examples 1, 2, 5 (sec. 4.2): eqs. (4.25) and (4.26) evaluated
 numerically with u = r/L, for warp factors e^{2A(u)} exported by
 01_wormhole_backgrounds.wl, followed by a linear fit at large width,
 
     I / (C V) = m * Delta l / L + n ,   C = L / G_{d+1} .
 
-Checks: the fitted slopes reproduce the analytic large-width result (4.21),
+Checks: the fitted slopes reproduce the analytic large-width result (4.30),
 m = e^{(d-1)A(0)}/2 (computed in 01_wormhole_backgrounds.wl), and the
 intercepts agree with the values quoted in the paper.
 
@@ -36,8 +36,8 @@ EXAMPLES = {
 def strip(d: int, warp, u_star: float) -> tuple[float, float]:
 	"""(width / L, I / (C V)) for the disconnected surfaces turning at u_star > 0.
 
-	With y = e^{2(d-1)(A* - A)}: the bracket of (4.15) is e^{(d-2)A} [1/sqrt(1-y) - 1] and the
-	integrand of (4.16) is sqrt(y) e^{-A} / sqrt(1-y). tanh-sinh quadrature handles the
+	With y = e^{2(d-1)(A* - A)}: the bracket of (4.25) is e^{(d-2)A} [1/sqrt(1-y) - 1] and the
+	integrand of (4.26) is sqrt(y) e^{-A} / sqrt(1-y). tanh-sinh quadrature handles the
 	integrable 1/sqrt singularity at u_star.
 	"""
 	us = mp.mpf(u_star)

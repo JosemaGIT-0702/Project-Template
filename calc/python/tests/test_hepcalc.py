@@ -1,5 +1,6 @@
 import json
 
+import mpmath
 import pytest
 import sympy as sp
 from hepcalc import bridge, results
@@ -44,3 +45,14 @@ def test_values_tex_builds(tmp_path, monkeypatch):
 	results.export_values("bad", {"Foo2": 1.0})
 	with pytest.raises(ValueError):
 		results.build_values_tex()
+
+
+def test_lambdify_reciprocal_hyperbolic_near_zero(tmp_path, monkeypatch):
+	"""Csch, Coth stay accurate at small arguments (no cancelling exponentials)."""
+	monkeypatch.setattr(bridge, "ANALYTIC", tmp_path)
+	(tmp_path / "demo.json").write_text(json.dumps({"mathematica": "Csch[u]^2 + Coth[u]"}))
+	f = bridge.lambdify("demo", "u")
+	with mpmath.workdps(30):
+		for u in (1e-6, 1e-3, 0.5, -2.0):
+			exact = mpmath.csch(mpmath.mpf(u)) ** 2 + mpmath.coth(mpmath.mpf(u))
+			assert f(u) == pytest.approx(float(exact), rel=1e-14)

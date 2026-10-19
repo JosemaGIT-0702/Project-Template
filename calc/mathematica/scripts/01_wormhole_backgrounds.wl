@@ -6,23 +6,25 @@
      2. Coulomb branch of ABJM, SO(4)xSO(4)      (d = 3, one ghost)
      5. GPPZ                                       (d = 4, two ghosts)
 
+   Superpotentials, profiles and warp factors come from packages/wormholes.wl.
    Assumptions: ghost scalars only (phi^a = i eta^a), metric dr^2 + e^{2A} eta_{mu nu} dx dx, mostly plus.
    Checks:
-     - the closed-form flows solve the BPS equations, eq. (2.7);
+     - the closed-form flows solve the BPS equations, eq. (2.6);
      - they solve the full second-order equations, R_MN = 1/2 Ttilde_MN and the ghost scalar equations,
        with Ricci computed from the metric by packages/supergrav.wl (not the reduced equations of app. B);
      - asymptotics: two AdS boundaries of equal radius; throat is a minimum of the warp factor;
-     - V(eta) from eq. (2.8) agrees with the expressions quoted in app. C.
+     - V(eta) from eq. (2.7) agrees with the expressions quoted in app. C.
    Outputs:
      results/analytic/warp_ex{1,2,5}[_r].json            e^{2A} in u = r/L (and in r), Minkowski boundaries
      results/analytic/{potential_ex1,potential_ex2}.json  V(eta)
      results/analytic/{delta_eta_ex*,idb_upper_d*}.json    imaginary distance vs bound, sec. 5
-     results/01_wormhole_backgrounds.json                  slopes of I(width), eq. (4.21)
+     results/01_wormhole_backgrounds.json                  slopes of I(width), eq. (4.30)
 *)
 
 Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
 
 ScriptBegin["Script01"];
+LoadPackage["wormholes"];
 $Assumptions = L > 0 && Element[{r, u, r0, r1, r2, a0}, Reals];
 
 (* ---------- domain-wall geometry (packages/supergrav.wl) ---------- *)
@@ -60,7 +62,7 @@ bpsSolvesEOM[label_, d_, W_, etas_] := Module[
 	AssertZero[label <> ": BPS flows solve Einstein + ghost scalar equations", residuals]
 ];
 
-(* the closed-form profiles solve the BPS equations, eq. (2.7) *)
+(* the closed-form profiles solve the BPS equations, eq. (2.6) *)
 checkProfiles[label_, d_, W_, etas_, etaSol_, warp2_] := Module[{sol = Thread[etas -> etaSol]},
 	AssertZero[label <> ": BPS eta", D[etaSol, r] + (D[W, #] & /@ etas /. sol)];
 	AssertZero[label <> ": BPS A", D[Log[warp2]/2, r] + (W /. sol)/(2 (d - 1))]
@@ -78,9 +80,9 @@ endpoints[expr_] := {expr /. ArcTan[_] -> 0, expr /. ArcTan[_] -> Pi/2};
 
 (* ---------- example 1: N=4 Coulomb branch, d = 4 ---------- *)
 
-W1 = 6/L Cos[eta/Sqrt[3]];
-eta1Sol = 2 Sqrt[3] ArcTan[E^(2 (r - r0)/L)];
-warp1 = E^(2 a0)/Sin[eta1Sol/Sqrt[3]];
+W1 = GhostSuperpotential["ex1", L, {eta}];
+eta1Sol = First[GhostFlow["ex1", L, r, {r0}]];
+warp1 = GhostWarp["ex1", L, r, a0, {r0}];
 checkWormhole["ex1", 4, W1, {eta}, {eta1Sol}, warp1];
 AssertZero["ex1: V vs app. C", ghostPotential[W1, {eta}, 4] + 3 (3 + Cos[2 eta/Sqrt[3]])/L^2];
 AssertNumericZero["ex1: AdS at r -> -oo",
@@ -90,9 +92,9 @@ AssertNumericZero["ex1: AdS at r -> +oo",
 
 (* ---------- example 2: ABJM Coulomb branch, d = 3 ---------- *)
 
-W2 = 4/L Cos[eta/2];
-eta2Sol = 4 ArcTan[E^((r - r0)/L)];
-warp2 = E^(2 a0)/Sin[eta2Sol/2]^2;
+W2 = GhostSuperpotential["ex2", L, {eta}];
+eta2Sol = First[GhostFlow["ex2", L, r, {r0}]];
+warp2 = GhostWarp["ex2", L, r, a0, {r0}];
 checkWormhole["ex2", 3, W2, {eta}, {eta2Sol}, warp2];
 AssertZero["ex2: V vs app. C", ghostPotential[W2, {eta}, 3] + 2 (2 + Cos[eta])/L^2];
 AssertNumericZero["ex2: AdS at r -> -oo",
@@ -102,9 +104,9 @@ AssertNumericZero["ex2: AdS at r -> +oo",
 
 (* ---------- example 5: GPPZ, d = 4, two ghosts ---------- *)
 
-W5 = 3/L (Cos[eta1/Sqrt[3]] + Cos[eta2]);
-eta5Sol = {2 Sqrt[3] ArcTan[E^((r - r1)/L)], 2 ArcTan[E^(3 (r - r2)/L)]};
-warp5 = E^(2 a0) Cosh[(r - r1)/L] Cosh[3 (r - r2)/L]^(1/3);
+W5 = GhostSuperpotential["ex5", L, {eta1, eta2}];
+eta5Sol = GhostFlow["ex5", L, r, {r1, r2}];
+warp5 = GhostWarp["ex5", L, r, a0, {r1, r2}];
 checkWormhole["ex5", 4, W5, {eta1, eta2}, eta5Sol, warp5];
 AssertNumericZero["ex5: AdS at r -> -oo",
 	atMinusInfinity[warp5 E^((2 r - r1 - r2)/L)] - E^(2 a0)/2^(4/3)];
@@ -114,9 +116,9 @@ AssertNumericZero["ex5: AdS at r -> +oo",
 (* ---------- Minkowski boundaries (sec. 4.2): symmetric wormholes, unit boundary metric ---------- *)
 
 warpMink = <|
-	"ex1" -> {4, warp1 /. {r0 -> 0, a0 -> Log[2]/2}, 2 Cosh[2 u]},
-	"ex2" -> {3, warp2 /. {r0 -> 0, a0 -> Log[4]/2}, 4 Cosh[u]^2},
-	"ex5" -> {4, warp5 /. {r1 -> 0, r2 -> 0, a0 -> Log[2^(4/3)]/2}, 2^(4/3) Cosh[u] Cosh[3 u]^(1/3)}|>;
+	"ex1" -> {4, warp1 /. {r0 -> 0, a0 -> GhostMinkowskiA0["ex1"]}, 2 Cosh[2 u]},
+	"ex2" -> {3, warp2 /. {r0 -> 0, a0 -> GhostMinkowskiA0["ex2"]}, 4 Cosh[u]^2},
+	"ex5" -> {4, warp5 /. {r1 -> 0, r2 -> 0, a0 -> GhostMinkowskiA0["ex5"]}, 2^(4/3) Cosh[u] Cosh[3 u]^(1/3)}|>;
 
 slopes = KeyValueMap[Function[{ex, data}, Module[{d, w, paper, A, A0},
 		{d, w, paper} = data;
@@ -128,7 +130,7 @@ slopes = KeyValueMap[Function[{ex, data}, Module[{d, w, paper, A, A0},
 		If[!TrueQ[(D[A, {u, 2}] /. u -> 0) > 0], CheckFailed[ex <> ": throat is not a minimum"]];
 		ExportAnalytic["warp_" <> ex, paper];               (* in u = r/L, for Python *)
 		ExportAnalytic["warp_" <> ex <> "_r", paper /. u -> r/L];  (* in r, for the paper *)
-		(* large-width mutual information slope, eq. (4.21): I/(C V) ~ m Delta l / L, m = e^{(d-1)A(0)}/2 *)
+		(* large-width mutual information slope, eq. (4.30): I/(C V) ~ m Delta l / L, m = e^{(d-1)A(0)}/2 *)
 		ex -> FullSimplify[E^((d - 1) A /. u -> 0)/2]]], warpMink];
 
 (* ---------- imaginary distance travelled by the scalars vs the bound of sec. 5 ---------- *)

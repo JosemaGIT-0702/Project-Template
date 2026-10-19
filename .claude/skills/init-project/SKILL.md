@@ -23,7 +23,9 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
    - delete `calc/mathematica/scripts/01_wormhole_backgrounds.wl`,
      `calc/mathematica/scripts/02_ghost_fluctuations.wl`,
      `calc/python/scripts/03_ghost_spectrum.py`, `calc/python/scripts/04_mutual_information.py`,
-     `calc/python/scripts/05_ghost_spectrum_ex2.py`;
+     `calc/python/scripts/05_ghost_spectrum_ex2.py`, `calc/mathematica/scripts/06_ghost_fluctuations_ex5.wl`,
+     `calc/python/scripts/07_ghost_spectrum_ex5.py` and the example package `calc/mathematica/packages/wormholes.wl`
+     (and its row in `calc/mathematica/packages/README.md`);
    - delete every file in `results/` and `results/analytic/`, every `paper/generated/eq_*.tex`,
      `paper/figures/mutual_information.pdf`, `paper/images/tachyoncondensation.png`
      (keep the `.gitkeep` files, so the emptied folders stay in git);

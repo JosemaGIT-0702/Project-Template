@@ -80,6 +80,8 @@ that its key results are regenerated and checked by the pipeline:
 | `03_ghost_spectrum.py` | table 1, example 1: Chebyshev spectral method, convergence-checked |
 | `04_mutual_information.py` | fig. 2 and the large-width fits, slopes checked against the analytic result |
 | `05_ghost_spectrum_ex2.py` | table 1, example 2, following the original notebook: closed-form solution, regularity at the throat, vanishing source |
+| `06_ghost_fluctuations_ex5.wl` | the coupled Z^a equations for two ghosts (example 5), derived from the curvature of the perturbed metric; one-ghost limit checked against app. B |
+| `07_ghost_spectrum_ex5.py` | table 1, example 5: shooting with Wronskian matching, cross-checked by a one-sided method |
 
 The schematic figure lives in `paper/images/` (hand-made art is the only exception to
 "every figure is generated"). `/init-project` removes the example.

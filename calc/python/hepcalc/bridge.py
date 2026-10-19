@@ -20,4 +20,10 @@ def lambdify(name: str, *symbols: str, modules: str = "numpy"):
 	Example: f = lambdify("warp", "u"); use modules="mpmath" for high-precision work.
 	"""
 	expr = load(name)
+	if modules == "numpy":
+		# sympy's numpy printer writes csch, coth as differences of exponentials, which cancel
+		# catastrophically near 0 (relative error ~1e-16/x); numpy's sinh, cosh do not
+		expr = expr.replace(sp.csch, lambda x: 1 / sp.sinh(x)).replace(
+			sp.coth, lambda x: sp.cosh(x) / sp.sinh(x)
+		)
 	return sp.lambdify([sp.Symbol(s) for s in symbols], expr, modules=modules)

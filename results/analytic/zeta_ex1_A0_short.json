@@ -1,0 +1,6 @@
+{
+	"name":"zeta_ex1_A0_short",
+	"mathematica":"-2 + 24\/(-3 + s) - 10*s + (32*(7 + s - 3*s^2 + 3*s^3))\/p",
+	"tex":"\\frac{32 \\left(3 s^3-3 s^2+s+7\\right)}{p}-10 s+\\frac{24}{s-3}-2",
+	"generated":"2026-10-19T20:36:19"
+}

@@ -3,6 +3,52 @@
 Newest entries on top. One entry per working session: what was done, what was
 found, what is open. Agents add entries here via `/log`.
 
+## 2026-10-19 (LaTeX rules review of the example paper)
+- Done: brought `paper/` in line with `.claude/rules/latex.md`: one sentence per line (scripted
+  reflow, PDF text identical before/after); comments for every extra preamble package; raw markup
+  replaced by macros (`\cN`, `\cC`, `\Real`, `\Imag`, `\SO`, `\U`, `\ISO`, `\SE`, `\KE`) and roman
+  labels/operators (`\text{SYM}`, `\max`, `\cot`, `\text{D}`); hand-typed "Section/Figure \ref" ->
+  `\cref`, `\eqref{tab:spectra}` bug fixed, `subsec:` labels -> `sec:`; display punctuation `\,.`/`\,,`
+  (and missing/wrong ones); typos, incl. index slips in app. B (`\partial_{\eta^a}V`, `\chi^a`,
+  a doubled `=0`). Also fixed a 20pt overfull box (app. A action) and `\begin{table}[]`.
+- Done: Example 5 row of table 1 is no longer hand-typed. New `06_ghost_fluctuations_ex5.wl` derives
+  the coupled invariant equations for n ghosts from the curvature of the perturbed metric (radial
+  gauge, spin-0 rest-frame sector, H_S = 0); `07_ghost_spectrum_ex5.py` computes the spectrum
+  (shooting + 4x4 Wronskian). Collocation sizes of `03` are exported (`\valNCollocation*`).
+- Results: the n-ghost Q_ab is symmetric, reduces to the paper's Q_ZZ (B.34)-(B.36) for one ghost, and
+  coincides term by term with the equations of the original notebook (example 5). At the throat
+  Q ~ -2 e e^T/u^2 (e = (1, sqrt 3)/2): exponents {2, -1} along e, {0, 1} across. The notebook used
+  per-field exponents (1+sqrt3)/2, (1+sqrt7)/2 (off-diagonal 1/u^2 coupling neglected). Odd sector
+  (Z.n ~ u): 18.5638, 37.2209, 65.1191 (paper 18.62, 37.22, 65.04), independent of cutoffs (1e-8)
+  and of the method (one-sided check, 1e-4). Table now shows these (user's choice). Even sector
+  (Z.n ~ 1), excluded by the paper's conditions: 4.8205, 36.051, 40.097 (O(delta) throat error,
+  converged to ~1e-4). No M^2 < 0 in either sector: stability conclusion unchanged.
+- Done (follow-up): new project package `calc/mathematica/packages/wormholes.wl` (superpotentials,
+  BPS profiles, warp factors, Minkowski a0 of examples 1, 2, 5), loaded by `01`, `02`, `06`; outputs
+  of `01` byte-identical before/after. App. C now shows the example-5 equations from `06` (Q_ab in
+  hyperbolic form, the throat matrix, the throat/boundary conditions used) and A_0, B_0, B_1 from `02`
+  (partial fractions with p(s), q(s), so B_0 fits on a line; full forms still feed `03`). The analytic
+  slopes `\valMISlopeAnalyticEx*` are quoted next to the fits in sec. 4. `02` and `06` cite this
+  build's equation numbers; `02` check 3 is labelled as a comparison with the arXiv forms.
+- Results: `03`, `04`, `07` reproduce their numbers with the new export forms (differences
+  <= 1e-11 relative, printed digits unchanged).
+- Bug fixed: `hepcalc.bridge.lambdify` (numpy) turned `Csch`, `Coth` into differences of exponentials,
+  which cancel near 0 (relative error ~1e-16/x): with Q_ab in hyperbolic form `07` crawled for 30+ min
+  integrating noise near the throat. Now rewritten as 1/sinh, cosh/sinh; regression test in
+  `tests/test_hepcalc.py` (fails without the fix). `07` back to 1.5 min, same eigenvalues.
+- Done: equation numbers in the comments of `01` and `04` now match this build ((2.6), (2.7), (4.25),
+  (4.26), (4.30)); `03`, `05` were already right.
+- Results: `FindInstance::vlist` in `02` came from `Solve[..., c]` with c > 0 in `$Assumptions`:
+  Mathematica 15.0's assumption preprocessing in Solve calls `FindInstance[True, {}]` (reproduced
+  with -32/41 + 3/c == 0 in a clean Module; gone with Assumptions -> True, same solution). Harmless;
+  `02` now passes `Assumptions -> True` (equation linear in 1/c) and runs without messages.
+- Verified (/verify of 06/07): example-5 equations identical to those of the authors' notebook (exact
+  import, coefficients equal to 1e-77 incl. the M^2 term); Q even in u; Z gauge invariant; spectrum
+  re-computed with Mathematica NDSolve (30 digits, other cutoffs): agrees with `07` to 2e-11.
+- Open: the even sector is not mentioned in the paper; `\cite{code}` stays a non-INSPIRE `@misc`
+  (accepted exception).
+- Note: in this shell `grep` is ugrep, which skips `paper/main.log` as binary: use `/usr/bin/grep`.
+
 ## 2026-10-19
 - Done: added `.claude/rules/coding.md` (always loaded), adapted from andrej-karpathy-skills (MIT,
   upstream commit 2c60614): think before coding, simplicity first, surgical changes, goal-driven

@@ -20,6 +20,7 @@ from hepcalc import bridge
 from hepcalc.results import export_values
 
 N_MODES = 3
+N_COARSE, N_FINE = 100, 200  # collocation points of the convergence check
 PAPER_TABLE_1 = [13.397, 53.933, 117.15]  # example 1, spectral
 
 
@@ -45,7 +46,7 @@ def spectrum(n: int) -> np.ndarray:
 	return np.sort(m2)[:N_MODES]
 
 
-coarse, fine = spectrum(100), spectrum(200)
+coarse, fine = spectrum(N_COARSE), spectrum(N_FINE)
 assert np.allclose(coarse, fine, rtol=1e-8), f"not converged: {coarse} vs {fine}"
 assert np.allclose(fine, PAPER_TABLE_1, rtol=5e-4), f"disagrees with table 1: {fine}"
 assert np.all(fine > 0), "negative M^2: unstable mode"
@@ -53,8 +54,12 @@ assert np.all(fine > 0), "negative M^2: unstable mode"
 export_values(
 	"03_ghost_spectrum",
 	{
-		f"MSqExOne{label}": {"value": m2, "digits": 5}
-		for label, m2 in zip(("First", "Second", "Third"), fine)
+		**{
+			f"MSqExOne{label}": {"value": m2, "digits": 5}
+			for label, m2 in zip(("First", "Second", "Third"), fine)
+		},
+		"NCollocationCoarse": {"value": N_COARSE, "decimals": 0},
+		"NCollocationFine": {"value": N_FINE, "decimals": 0},
 	},
 )
 

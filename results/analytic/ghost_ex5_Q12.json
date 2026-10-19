@@ -1,0 +1,6 @@
+{
+	"name":"ghost_ex5_Q12",
+	"mathematica":"(-4*Sqrt[3]*(2 - Cosh[2*u] + Cosh[6*u])*Csch[4*u]^2)\/(-1 + 2*Cosh[2*u])",
+	"tex":"-\\frac{4 \\sqrt{3} (-\\cosh (2 u)+\\cosh (6 u)+2) \\text{csch}^2(4 u)}{2 \\cosh (2 u)-1}",
+	"generated":"2026-10-19T20:29:21"
+}
