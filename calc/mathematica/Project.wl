@@ -5,7 +5,7 @@
        Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
        ScriptBegin["ScriptNN"];   ... calculation ...   ScriptEnd[];
    ScriptBegin gives the script a private, freshly wiped context, so it behaves identically in
-   `wolfram -script`/wolframscript and in the persistent, context-isolated kernel of the Wolfram
+   wolframscript (make calc) and in the persistent, context-isolated kernel of the Wolfram
    MCP server (no clashes between symbols of different scripts or sessions, no leaked state).
 
    Physics lives in packages, not here: calc/mathematica/packages/*.wl are the same packages the
@@ -43,7 +43,7 @@ A value may be a number or <|\"value\" -> x, \"digits\" -> n (or \"decimals\" ->
 ExportAnalytic::usage = "ExportAnalytic[name, expr] writes results/analytic/<name>.json \
 (InputForm + TeXForm) and paper/generated/eq_<name>.tex for \\input in the paper.";
 ImportAnalytic::usage = "ImportAnalytic[name] reads back an expression saved with ExportAnalytic.";
-AssertZero::usage = "AssertZero[label, expr] checks expr == 0 (or a list of zeros): Simplify for at most 20 s, \
+AssertZero::usage = "AssertZero[label, expr] checks expr == 0 (or a list of zeros): Simplify for at most 10 s, \
 then 40-digit evaluation at random points; calls CheckFailed if it is not zero.";
 AssertNumericZero::usage = "AssertNumericZero[label, expr] checks expr == 0 only numerically (40 digits, random \
 rational points for all free symbols); use it for asymptotic checks and when Simplify is hopeless.";

@@ -22,7 +22,8 @@ Arguments: `$ARGUMENTS`
    then `make values`.
 6. If results belong in the paper, use them via `\val<Key>` / `\input{generated/eq_<name>}`
    and run `make paper`.
-7. Append a line to `notes/log.md`.
+7. Add a line to today's entry in `notes/log.md` (newest entries on top; create the entry
+   as `/log` does if there is none).
 
 ## Mathematica template
 
@@ -34,7 +35,7 @@ Arguments: `$ARGUMENTS`
    Outputs: results/analytic/<name>.json, results/NN_name.json *)
 
 Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
-ScriptBegin["ScriptNN"];     (* private context + clean state: same behaviour under MCP and wolfram -script *)
+ScriptBegin["ScriptNN"];     (* private context + clean state: same behaviour under MCP and wolframscript *)
 $Assumptions = L > 0 && Element[r, Reals];
 (* physics from calc/mathematica/packages/ (same as the notebooks), at top level before any definition
    that uses it: LoadGeometry[{r, t, x1, x2, x3}, metric] -> RicciTensor, Einstein, scalarLaplacian, ...
@@ -42,7 +43,7 @@ $Assumptions = L > 0 && Element[r, Reals];
 
 result = ...;
 
-(* checks: AssertZero[label, expr] (Simplify <= 20 s, then 40-digit numerics), or
+(* checks: AssertZero[label, expr] (Simplify <= 10 s, then 40-digit numerics), or
    CheckFailed[msg] for any other condition. Both stop the script; in the MCP kernel they Abort[]. *)
 AssertZero["<what is checked>", <expression that must vanish>];
 If[!TrueQ[<condition>], CheckFailed["<what>"]];

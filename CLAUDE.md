@@ -19,14 +19,17 @@ regenerated with `make all`.
 | `calc/mathematica/packages/` | Physics packages shared by notebooks and scripts, copied unchanged (`supergrav.wl`: curvature for a given metric); see its README |
 | `calc/mathematica/scripts/NN_*.wl` | Reproducible analytic calculations (run in order) |
 | `calc/mathematica/notebooks/` | Exploratory notebooks -- not part of the pipeline; committed without outputs (git filter `tools/nbstrip.py`) |
-| `calc/python/hepcalc/` | Python package: `bridge` (load Mathematica results), `results`, `plotting`, `constants` |
+| `calc/python/hepcalc/` | Python package: `bridge` (load Mathematica results), `results`, `plotting`, `constants`, `paths` |
 | `calc/python/scripts/NN_*.py` | Reproducible numerical calculations |
 | `calc/python/tests/` | pytest |
-| `calc/other/` | Slot for other languages (FORM, Julia, C++...) -- see its README |
+| `calc/python/notebooks/` | Exploratory Jupyter notebooks -- not part of the pipeline |
+| `calc/other/` | README only: how to add other languages (FORM, Julia, C++...) as sibling `calc/<tool>/` directories |
 | `results/` | `*.json` numerical results, `analytic/*.json` exported expressions |
 | `data/raw/` | External inputs (read-only). `data/processed/` is generated |
 | `notes/` | `conventions.md`, `log.md` (research log), `derivations/` (hand derivations in Markdown/LaTeX) |
 | `literature/` | Paper notes, one Markdown file per INSPIRE texkey |
+| `tools/` | `run-calcs.sh` (used by `make calc`), `make-arxiv.sh`, `nbstrip.py` (notebook git filter) |
+| `.claude/` | `rules/` (instructions, mostly path-scoped), `skills/`, `settings.json` (permissions, hooks) |
 
 ## The pipeline
 
@@ -50,7 +53,7 @@ in that order; a later script may consume anything an earlier one wrote.
   Run a pipeline script with `WolframLanguageEvaluator` and the code
   `Get["<abs path>/calc/mathematica/scripts/NN_x.wl"]`, then `make values`. Scripts isolate
   themselves with `ScriptBegin`/`ScriptEnd` (private context, state restored even after a failed
-  check), so they behave the same here and under `wolfram -script`. Explore and check
+  check), so they behave the same here and under `wolframscript` (`make calc`). Explore and check
   derivations with the same tool (`Simplify[lhs - rhs]`, numerics at random points).
   (`make calc` uses wolframscript and is for humans/CI.)
 
@@ -66,7 +69,7 @@ in that order; a later script may consume anything an earlier one wrote.
    conventions, convert explicitly and note it in the derivation.
 4. **Never cite from memory.** BibTeX comes from INSPIRE (`/add-reference`). If you
    cannot verify a claim from a paper, say so instead of guessing.
-5. **Log progress.** After meaningful work, append to `notes/log.md` (`/log`).
+5. **Log progress.** After meaningful work, add an entry to `notes/log.md` (newest on top; `/log`).
 6. Generated files (`paper/generated/`, `paper/figures/`, `results/`) ARE committed so
    coauthors/Overleaf/CI can build the paper without Mathematica. Regenerate, never edit.
 7. Do not delete or overwrite `data/raw/`.

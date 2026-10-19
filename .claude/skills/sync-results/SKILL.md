@@ -8,7 +8,7 @@ description: Regenerate all calculation outputs and the paper end-to-end, and ch
 1. Run every pipeline script in numeric order (`ls calc/*/scripts/[0-9]*` sorted by basename):
    - `.wl` -> Wolfram MCP `WolframLanguageEvaluator` with
      `Get["<absolute path>"]`; check it printed `OK`
-     and did not `Exit[1]`;
+     and no `CHECK FAILED` (in the MCP kernel a failed check aborts, returning `$Aborted`);
    - `.py` -> `uv run python <file>`;
    - other extensions -> as in `tools/run-calcs.sh`.
    Stop at the first failure and report it.

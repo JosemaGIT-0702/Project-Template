@@ -1,6 +1,7 @@
 ---
 paths:
   - "calc/python/**"
+  - "tools/*.py"
   - "pyproject.toml"
 ---
 

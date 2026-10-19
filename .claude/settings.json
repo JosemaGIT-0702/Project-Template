@@ -1,6 +1,5 @@
 {
-	"permissions": 
-	{
+	"permissions": {
 		"allow": [
 			"Bash(make:*)",
 			"Bash(latexmk:*)",
@@ -12,7 +11,7 @@
 			"Bash(git status:*)",
 			"Bash(git diff:*)",
 			"Bash(git log:*)",
-			"mcp__Wolfram__ReadNotebook", 
+			"mcp__Wolfram__ReadNotebook",
 			"mcp__Wolfram__SymbolDefinition",
 			"mcp__Wolfram__CodeInspector"
 		],
@@ -28,7 +27,8 @@
 				"hooks": [
 					{
 						"type": "command",
-						"command": "jq -r '.tool_input.file_path // empty' | grep '\\.py$' | xargs -r uv run ruff format -q"					}
+						"command": "jq -r '.tool_input.file_path // empty' | grep '\\.py$' | xargs -r uv run ruff format -q"
+					}
 				]
 			}
 		]

@@ -100,8 +100,8 @@ results/          numerical results (*.json) and analytic expressions (analytic/
 data/             raw/ (inputs, read-only), processed/ (generated, git-ignored)
 notes/            conventions.md, log.md (research log), derivations/
 literature/       one note per paper (INSPIRE texkey)
-tools/            run-calcs.sh, make-arxiv.sh
-.claude/          rules/ (path-scoped instructions), skills/, settings.json
+tools/            run-calcs.sh, make-arxiv.sh, nbstrip.py (notebook git filter)
+.claude/          rules/ (instructions, mostly path-scoped), skills/, settings.json
 CLAUDE.md         project instructions for the agent
 ```
 
@@ -109,7 +109,7 @@ CLAUDE.md         project instructions for the agent
 
 | Target | |
 |---|---|
-| `make setup` | `uv sync`, check tools |
+| `make setup` | `uv sync`, register the notebook git filter, check tools |
 | `make calc` / `make calc ONLY=03` / `make calc-py` | run calculations |
 | `make values` | rebuild `paper/generated/values.tex` |
 | `make paper` / `make watch` | build the PDF |
@@ -123,7 +123,7 @@ CLAUDE.md         project instructions for the agent
 `CLAUDE.md` describes the project and its non-negotiables (no hand-typed numbers,
 every result cross-checked, conventions in `notes/conventions.md`, INSPIRE-only
 citations). Rules in `.claude/rules/` load automatically when the agent touches
-LaTeX, Mathematica or Python files. Mathematica is driven through the official Wolfram MCP
+LaTeX, Mathematica or Python files; the physics rules (`physics.md`) are always loaded. Mathematica is driven through the official Wolfram MCP
 server (installed globally, see Quick start; `WolframLanguageEvaluator`, see `CLAUDE.md`), not `wolframscript`.
 
 | Skill | What it does |
