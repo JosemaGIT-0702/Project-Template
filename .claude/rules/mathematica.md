@@ -12,7 +12,8 @@ paths:
     then `make values`.
   - The MCP kernel is persistent and parses symbols into a private `Sessions`...`` context, so
     scripts must not rely on `Global``: they isolate themselves with `ScriptBegin["ScriptNN"]` /
-    `ScriptEnd[]` (see below). Never use `Global`x` in `Project.wl` or scripts.
+    `ScriptEnd[]` (see below). Never use `Global`x` in scripts (only `LoadGeometry` in
+    `Project.wl` touches `Global`, because `supergrav.wl` requires it).
   - Explore: evaluate code directly; prefer one compound expression over many round-trips.
   - Look up definitions with `SymbolDefinition` instead of guessing.
   - Notebooks for the user: `WriteNotebook`; read one back with `ReadNotebook`.
@@ -20,9 +21,14 @@ paths:
   `Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];` then
   `ScriptBegin["ScriptNN"];` (private, freshly wiped context; `$Assumptions` reset) and end with
   `ScriptEnd[];` after the final `Print["NN_name: OK"]`. `CheckFailed` calls `ScriptEnd[]` itself.
-  The coordinates `r` and `x` are shared symbols exported by `Project.wl`; do not `ClearAll` them.
-- Shared definitions (curvature helpers, ansätze, superpotentials, model parameters, package
-  loading such as xAct or FeynCalc) go in `Project.wl`, not copied between scripts.
+- `Project.wl` is pipeline infrastructure only (isolation, checks, exports, loaders): do not put
+  physics in it. Physics comes from the packages in `packages/` (see `packages/README.md`), the
+  same ones the notebooks use: `LoadPackage["name"]`, or `LoadGeometry[coords, metric]` for
+  `supergrav.wl`. Installed packages (xAct, FeynCalc, ...) are loaded with `Needs[...]` after
+  `ScriptBegin`. Load at top level before defining functions that use a package's symbols
+  (contexts are resolved when a definition is read).
+- Definitions shared by several scripts of one project (ansätze, superpotentials, model
+  parameters) go in a project package in `packages/`, not copied between scripts.
 - Use the symbol names from `notes/conventions.md` (`r`, `u`, `L`, `eta`, ...) so
   `hepcalc.bridge` can parse exported expressions with sympy.
 - Outputs only through `ExportAnalytic[name, expr]` and `ExportValues[name, <|...|>]`.
@@ -30,8 +36,10 @@ paths:
 - Every script asserts its own checks with `AssertZero` / `CheckFailed` from `Project.wl`
   (they `Exit[1]` under wolframscript and `Abort[]` in the MCP kernel; look for `CHECK FAILED`
   in the output).
-- Geometry: use `RicciTensor`, `EinsteinTensor`, `ScalarLaplacian`, `DomainWallMetric` from
-  `Project.wl` (conventions in its header) rather than re-deriving curvature by hand.
+- Geometry: `LoadGeometry[coords, metric]`, then `RicciTensor`, `Einstein`, `scalarLaplacian`,
+  `covariant`, ... from `supergrav.wl`, rather than re-deriving curvature by hand. Coordinates
+  must be plain symbols (`{r, t, x1, x2, x3}`, not `x[i]`) and become `Protected`. Mind the
+  index layout `Riemann[[m, n, b, a]]` $= R^a{}_{bnm}$ (`packages/README.md`).
 - Keep scripts fast (< 1 min): `Simplify` on explicit special-function profiles can run for
   minutes and blocks the MCP kernel. Prefer eliminating derivatives with first-order/BPS
   equations, `TimeConstrained`, or the numerical fallback built into `AssertZero`. If the

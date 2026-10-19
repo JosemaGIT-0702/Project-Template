@@ -36,6 +36,9 @@ Arguments: `$ARGUMENTS`
 Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
 ScriptBegin["ScriptNN"];     (* private context + clean state: same behaviour under MCP and wolfram -script *)
 $Assumptions = L > 0 && Element[r, Reals];
+(* physics from calc/mathematica/packages/ (same as the notebooks), at top level before any definition
+   that uses it: LoadGeometry[{r, t, x1, x2, x3}, metric] -> RicciTensor, Einstein, scalarLaplacian, ...
+   (supergrav.wl); LoadPackage["name"] for other packages; Needs["..."] for installed ones *)
 
 result = ...;
 

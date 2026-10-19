@@ -4,8 +4,8 @@
   approximations, regime of validity) in the script header and in the paper.
 - Before trusting a new result, check at least one of:
   - **equations of motion**: a solution of first-order (BPS) equations must solve the full
-    second-order equations; compute curvature from the metric (`RicciTensor` etc. in
-    `Project.wl`), not from hand-reduced equations;
+    second-order equations; compute curvature from the metric (`LoadGeometry` + `RicciTensor`
+    etc. from `calc/mathematica/packages/supergrav.wl`), not from hand-reduced equations;
   - **consistency**: Bianchi identities, constraints (e.g. the $rr$ Einstein equation),
     flux quantisation, gauge/diffeomorphism invariance of fluctuations;
   - **asymptotics and limits**: AdS/flat asymptotics, near-boundary expansions and

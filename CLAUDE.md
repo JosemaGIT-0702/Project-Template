@@ -15,7 +15,8 @@ regenerated with `make all`.
 | `paper/generated/` | **Generated** by calc scripts: `values.tex` (`\val...` macros), `eq_<name>.tex`. Never edit by hand |
 | `paper/figures/` | **Generated** figures (PDF) |
 | `paper/images/` | Hand-made artwork (diagrams, sketches): the only figures not produced by a script |
-| `calc/mathematica/Project.wl` | Shared Mathematica package: curvature (`RicciTensor`, ...), checks (`AssertZero`), `ExportAnalytic`, `ExportValues` |
+| `calc/mathematica/Project.wl` | Pipeline infrastructure only: script isolation (`ScriptBegin`), checks (`AssertZero`), `ExportAnalytic`, `ExportValues`, package loaders (`LoadPackage`, `LoadGeometry`) |
+| `calc/mathematica/packages/` | Physics packages shared by notebooks and scripts, copied unchanged (`supergrav.wl`: curvature for a given metric); see its README |
 | `calc/mathematica/scripts/NN_*.wl` | Reproducible analytic calculations (run in order) |
 | `calc/mathematica/notebooks/` | Exploratory notebooks -- not part of the pipeline |
 | `calc/python/hepcalc/` | Python package: `bridge` (load Mathematica results), `results`, `plotting`, `constants` |

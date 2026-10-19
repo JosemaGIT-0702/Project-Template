@@ -18,7 +18,7 @@ Act as a skeptical second author. The goal is to find errors, not to confirm.
    and numerically at random rational points when `Simplify` is inconclusive).
 3. **Independent checks** -- do as many as apply, each as an actual computation:
    - equations of motion: plug the solution into the full second-order equations, with
-     curvature computed from the metric (`Project.wl`), not only the first-order/BPS ones;
+     curvature computed from the metric (`packages/supergrav.wl`), not only the first-order/BPS ones;
    - constraints and identities: Hamiltonian constraint, Bianchi identities, flux equations;
    - dimensional analysis / scaling weights of every term;
    - asymptotics and limits: AdS/flat ends, near-boundary falloffs vs. conformal dimensions,

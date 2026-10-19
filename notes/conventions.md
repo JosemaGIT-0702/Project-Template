@@ -14,7 +14,8 @@ headings, replace the content.
 - Indices: $M,N,\dots$ all bulk directions; $\mu,\nu,\dots$ parallel to the boundary;
   $i,j,\dots$ spatial boundary directions.
 - Riemann $R^a{}_{bcd} = \partial_c\Gamma^a_{db} - \partial_d\Gamma^a_{cb} + \Gamma^a_{ce}\Gamma^e_{db} - \Gamma^a_{de}\Gamma^e_{cb}$,
-  Ricci $R_{bd} = R^a{}_{bad}$: AdS has $R<0$ (as implemented in `Project.wl`).
+  Ricci $R_{bd} = R^a{}_{bad}$: AdS has $R<0$ (as computed by `calc/mathematica/packages/supergrav.wl`,
+  whose `Riemann[[m, n, b, a]]` $= R^a{}_{bnm}$).
 - Domain-wall ansatz $\dd s^2 = \dd r^2 + e^{2A(r)}\eta_{\mu\nu}\dd x^\mu\dd x^\nu$; AdS radius $L$;
   dimensionless radial coordinate $u = r/L$ in numerics.
 

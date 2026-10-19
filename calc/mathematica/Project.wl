@@ -1,19 +1,22 @@
 (* ::Package:: *)
-(* Project.wl -- shared definitions for every Mathematica script in this project.
+(* Project.wl -- pipeline infrastructure shared by every Mathematica script in this project.
 
    Load it at the top of each script with
        Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
        ScriptBegin["ScriptNN"];   ... calculation ...   ScriptEnd[];
    ScriptBegin gives the script a private, freshly wiped context, so it behaves identically in
    `wolfram -script`/wolframscript and in the persistent, context-isolated kernel of the Wolfram
-   MCP server (no clashes between `r`, `x`, ... of different scripts or sessions, no leaked state).
-   The coordinates `r` and `x` are public symbols of this package (Project`r, Project`x), which is
-   what lets DomainWallCoordinates agree with the symbols typed in a script.
+   MCP server (no clashes between symbols of different scripts or sessions, no leaked state).
+
+   Physics lives in packages, not here: calc/mathematica/packages/*.wl are the same packages the
+   exploratory notebooks use (see packages/README.md). Load them with LoadPackage, or, for the
+   metric-dependent supergrav.wl, with LoadGeometry[coords, metric].
 
    Conventions (keep in sync with notes/conventions.md):
      - mostly-plus signature (-,+,...,+)
      - Riemann tensor R^a_{bcd} = d_c Gamma^a_{db} - d_d Gamma^a_{cb} + Gamma^a_{ce} Gamma^e_{db} - Gamma^a_{de} Gamma^e_{cb},
-       Ricci R_{bd} = R^a_{bad}, so AdS has R < 0
+       Ricci R_{bd} = R^a_{bad}, so AdS has R < 0. supergrav.wl agrees for RicciTensor, RicciScalar,
+       Einstein; its Riemann[[m, n, b, a]] = R^a_{b n m}
      - action (1/(16 Pi G)) Int sqrt(-g) [R - 1/2 (dphi)^2 - V],  2 kappa^2 = 16 Pi G
 *)
 
@@ -21,23 +24,18 @@ BeginPackage["Project`"];
 
 $ProjectRoot::usage = "$ProjectRoot is the absolute path of the repository root.";
 
-r::usage = "r is the radial coordinate of DomainWallCoordinates (symbol shared by Project.wl and all scripts).";
-x::usage = "x[i] are the boundary coordinates of DomainWallCoordinates (symbols shared by Project.wl and all scripts).";
 ScriptBegin::usage = "ScriptBegin[\"ScriptNN\"] starts a pipeline script: wipes and enters the private context \
 ScriptNN`, drops stale Global`/Sessions` contexts from $ContextPath and resets $Assumptions. \
 Pair with ScriptEnd[] at the end of the script.";
 ScriptEnd::usage = "ScriptEnd[] leaves the script context and restores $Context, $ContextPath and $Assumptions. \
 Called automatically by CheckFailed, and safe to call twice.";
 
-Christoffel::usage = "Christoffel[g, x] gives Gamma^a_{bc} for metric matrix g in coordinates x.";
-RiemannTensor::usage = "RiemannTensor[g, x] gives R^a_{bcd} (conventions in Project.wl header).";
-RicciTensor::usage = "RicciTensor[g, x] gives R_{bd} = R^a_{bad}.";
-RicciScalar::usage = "RicciScalar[g, x] gives R = g^{bd} R_{bd}.";
-EinsteinTensor::usage = "EinsteinTensor[g, x] gives G_{ab} = R_{ab} - 1/2 g_{ab} R.";
-ScalarLaplacian::usage = "ScalarLaplacian[f, g, x] gives (1/sqrt(-g)) d_a (sqrt(-g) g^{ab} d_b f) for a Lorentzian metric g.";
-DomainWallMetric::usage = "DomainWallMetric[A, d] is the metric dr^2 + e^{2A} eta_{mu nu} dx^mu dx^nu in d+1 \
-dimensions (mostly plus), with coordinates {r, x0, ..., x(d-1)} returned by DomainWallCoordinates[d].";
-DomainWallCoordinates::usage = "DomainWallCoordinates[d] gives {r, x[0], ..., x[d-1]}.";
+LoadPackage::usage = "LoadPackage[\"name\"] loads calc/mathematica/packages/name.wl (call it at top level, \
+before the definitions that use the package's symbols).";
+LoadGeometry::usage = "LoadGeometry[coords, metric] (re)loads packages/supergrav.wl for this metric: afterwards \
+Christoffel, Riemann, RicciTensor, RicciScalar, Einstein, covariant, scalarLaplacian, raise, lower, ... (context \
+Supergravity`) refer to it. coords must be plain symbols. Call it once at top level before defining functions that \
+use these symbols (they are resolved when a definition is read), then again whenever the metric changes.";
 
 ExportValues::usage = "ExportValues[name, <|key -> value, ...|>] writes results/<name>.json. \
 Each key becomes the LaTeX macro \\val<Key> via `make values`. \
@@ -58,31 +56,25 @@ $ProjectRoot = FileNameDrop[
   If[StringQ[$InputFileName] && $InputFileName =!= "", $InputFileName,
      FileNameJoin[{Directory[], "calc", "mathematica", "Project.wl"}]], -3];
 
-(* ---------- Riemannian geometry ---------- *)
+(* ---------- packages ---------- *)
 
-Christoffel[g_, x_] := Module[{gi = Simplify[Inverse[g]], n = Length[x]},
-  Simplify @ Table[
-    1/2 Sum[gi[[a, e]] (D[g[[e, b]], x[[c]]] + D[g[[e, c]], x[[b]]] - D[g[[b, c]], x[[e]]]), {e, n}],
-    {a, n}, {b, n}, {c, n}]];
+packageFile[name_String] := FileNameJoin[{$ProjectRoot, "calc", "mathematica", "packages", name <> ".wl"}];
 
-RiemannTensor[g_, x_] := Module[{G = Christoffel[g, x], n = Length[x]},
-  Simplify @ Table[
-    D[G[[a, d, b]], x[[c]]] - D[G[[a, c, b]], x[[d]]] +
-      Sum[G[[a, c, e]] G[[e, d, b]] - G[[a, d, e]] G[[e, c, b]], {e, n}],
-    {a, n}, {b, n}, {c, n}, {d, n}]];
+LoadPackage[name_String] := If[FileExistsQ[packageFile[name]], Get[packageFile[name]],
+  CheckFailed["LoadPackage: no package " <> packageFile[name]]];
 
-RicciTensor[g_, x_] := Module[{R = RiemannTensor[g, x], n = Length[x]},
-  Simplify @ Table[Sum[R[[a, b, a, d]], {a, n}], {b, n}, {d, n}]];
-
-RicciScalar[g_, x_] := Simplify[Tr[Inverse[g] . RicciTensor[g, x]]];
-
-EinsteinTensor[g_, x_] := Simplify[RicciTensor[g, x] - 1/2 g RicciScalar[g, x]];
-
-ScalarLaplacian[f_, g_, x_] := Module[{sq = PowerExpand[Sqrt[-Det[g]]], gi = Inverse[g]},
-  Simplify[1/sq Sum[D[sq gi[[a, b]] D[f, x[[b]]], x[[a]]], {a, Length[x]}, {b, Length[x]}]]];
-
-DomainWallCoordinates[d_Integer] := Join[{r}, Table[x[i], {i, 0, d - 1}]];
-DomainWallMetric[A_, d_Integer] := DiagonalMatrix[Join[{1}, E^(2 A) Join[{-1}, ConstantArray[1, d - 1]]]];
+(* supergrav.wl reads Global`coord and Global`metric when it is loaded: the one place where Global` is
+   used, so that scripts can keep their own private context. *)
+LoadGeometry[coords_List, metric_] := (
+  If[!AllTrue[coords, MatchQ[#, _Symbol] &],
+    CheckFailed["LoadGeometry: coordinates must be plain symbols, got " <> ToString[coords, InputForm]]];
+  If[!(SymmetricMatrixQ[metric] && Dimensions[metric] === {Length[coords], Length[coords]}),
+    CheckFailed["LoadGeometry: metric is not a symmetric " <> ToString[Length[coords]] <> "x" <>
+      ToString[Length[coords]] <> " matrix"]];
+  Quiet[Unprotect["Supergravity`*"]];          (* reload: usage messages of protected symbols *)
+  ClearAll["Supergravity`Private`metricsign"];  (* cached sign of det g, would survive a reload *)
+  Block[{Global`coord = coords, Global`metric = metric}, Get[packageFile["supergrav"]]];
+  coords);
 
 (* ---------- checks ---------- *)
 
@@ -119,7 +111,7 @@ $scriptSaved = None;
 ScriptBegin[id_String] := Module[{ctx = id <> "`"},
   ScriptEnd[];                                  (* recover from an earlier aborted run *)
   $scriptSaved = <|"Script" -> ctx, "ContextPath" -> $ContextPath, "Assumptions" -> $Assumptions|>;
-  Quiet[Remove[Evaluate[ctx <> "*"]], Remove::rmnsm];
+  Quiet[Unprotect[Evaluate[ctx <> "*"]]; Remove[Evaluate[ctx <> "*"]], {Remove::rmnsm, Unprotect::ssym}];
   $ContextPath = Select[$ContextPath, !StringStartsQ[#, "Global`" | "Sessions`"] &];
   $Assumptions = True;
   Begin[ctx];

@@ -11,7 +11,8 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
 1. **Ask**: working title; authors + affiliations + emails; one-paragraph physics goal;
    conventions that differ from `notes/conventions.md` (signature, curvature sign,
    action normalisation / $\kappa$ vs. $G$, form and spinor conventions, units such as
-   $\ell_s$, $\alpha'$, $L$); extra tools needed (xAct, FeynCalc, FORM, Julia, ...);
+   $\ell_s$, $\alpha'$, $L$); existing Mathematica packages of theirs to use in notebooks and
+   scripts (paths); extra tools needed (xAct, FeynCalc, FORM, Julia, ...);
    whether to keep the example paper (arXiv:2605.16168) for reference.
 2. **Paper**: set `\title`, `\author`, `\affiliation`, `\emailAdd`, `\abstract` and
    `\acknowledgments` in `paper/main.tex`; remove the "EXAMPLE paper" comment.
@@ -36,12 +37,19 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
      `grep -rln "2605.16168\|wormhole\|ghost\|eq_warp\|valMI\|valMSq" paper calc notes CLAUDE.md README.md`
      must find nothing.
 4. **Conventions**: rewrite `notes/conventions.md` with the project's conventions (keep its
-   headings), and propagate to `calc/mathematica/Project.wl` (header comment; adapt the
-   geometry helpers if the signature or curvature sign changes), `calc/python/hepcalc/constants.py`
+   headings), and propagate to `calc/mathematica/Project.wl` (header comment), `calc/mathematica/packages/README.md`
+   (how each package's conventions map to the project's: never edit the packages themselves; if the
+   signature or curvature sign differs from `supergrav.wl`'s, state the conversion there and in
+   `.claude/rules/mathematica.md`), `calc/python/hepcalc/constants.py`
    and `paper/macros.tex`. Put a short conventions paragraph in `sections/appendix.tex`.
 5. **Extra tools**: follow `calc/other/README.md` for each (directory, runner entry in
-   `tools/run-calcs.sh`, a rule file in `.claude/rules/`). For Mathematica packages
-   (xAct, FeynCalc, ...), add the `Needs[...]` to `Project.wl` and check it loads via the Wolfram MCP.
+   `tools/run-calcs.sh`, a rule file in `.claude/rules/`). For Mathematica packages:
+   the user's own single-file packages are copied unchanged into `calc/mathematica/packages/`, added
+   to the table in its README (loaded with `LoadPackage["name"]`), and their conventions checked
+   numerically against `notes/conventions.md` via the Wolfram MCP (record the result in the README);
+   installed packages (xAct, FeynCalc, ...) are loaded with `Needs[...]` after `ScriptBegin` in the
+   scripts that use them (note this in `.claude/rules/mathematica.md`) and checked to load via the
+   Wolfram MCP. Do not put physics in `Project.wl`.
 6. **Python**: rename the project in `pyproject.toml` (`name`, keep package `hepcalc`), `uv sync`.
 7. **Verify**: `make calc-py`, `make test` and `make paper` all succeed (with no
    calculations yet, `make calc-py` just prints a note). Report what changed.

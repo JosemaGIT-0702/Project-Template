@@ -10,7 +10,7 @@
    Checks:
      - the closed-form flows solve the BPS equations, eq. (2.7);
      - they solve the full second-order equations, R_MN = 1/2 Ttilde_MN and the ghost scalar equations,
-       with Ricci computed from the metric (not the reduced equations of app. B);
+       with Ricci computed from the metric by packages/supergrav.wl (not the reduced equations of app. B);
      - asymptotics: two AdS boundaries of equal radius; throat is a minimum of the warp factor;
      - V(eta) from eq. (2.8) agrees with the expressions quoted in app. C.
    Outputs:
@@ -25,6 +25,14 @@ Get[FileNameJoin[{DirectoryName[$InputFileName], "..", "Project.wl"}]];
 ScriptBegin["Script01"];
 $Assumptions = L > 0 && Element[{r, u, r0, r1, r2, a0}, Reals];
 
+(* ---------- domain-wall geometry (packages/supergrav.wl) ---------- *)
+
+(* dr^2 + e^{2 Aw(r)} eta_{mu nu} dx^mu dx^nu in d+1 dimensions, mostly plus *)
+wallCoordinates[d_Integer] := Join[{r, t}, Table[Symbol["x" <> ToString[i]], {i, d - 1}]];
+wallMetric[d_Integer] := DiagonalMatrix[Join[{1}, E^(2 Aw[r]) Join[{-1}, ConstantArray[1, d - 1]]]];
+(* load once here, so that RicciTensor, scalarLaplacian below resolve to Supergravity` *)
+LoadGeometry[wallCoordinates[4], wallMetric[4]];
+
 (* ---------- generic checker for ghost-only domain walls ---------- *)
 
 ghostPotential[W_, etas_, d_] := -1/2 Total[D[W, #]^2 & /@ etas] - d/(4 (d - 1)) W^2;
@@ -33,8 +41,8 @@ ghostPotential[W_, etas_, d_] := -1/2 Total[D[W, #]^2 & /@ etas] - d/(4 (d - 1))
    with Ricci computed from the metric. BPS flows must solve them identically once A', eta', A'',
    eta'' are eliminated with the BPS equations: what remains is a function of the scalars only. *)
 bpsSolvesEOM[label_, d_, W_, etas_] := Module[
-  {x = DomainWallCoordinates[d], n = Length[etas], ef, toFields, rhsA, rhsE, rule1, rule2, g, V, ricci,
-   tTilde, residuals},
+  {x = wallCoordinates[d], g = wallMetric[d], n = Length[etas], ef, toFields, rhsA, rhsE, rule1, rule2,
+   V, ricci, tTilde, residuals},
   ef = Table[Unique["e"], {n}];
   toFields = Thread[etas -> Through[ef[r]]];
   rhsA = -W/(2 (d - 1)) /. toFields;
@@ -42,12 +50,12 @@ bpsSolvesEOM[label_, d_, W_, etas_] := Module[
   rule1 = Join[{Aw'[r] -> rhsA}, Thread[Through[(Derivative[1] /@ ef)[r]] -> rhsE]];
   rule2 = Join[{Aw''[r] -> (D[rhsA, r] /. rule1)},
     Thread[Through[(Derivative[2] /@ ef)[r]] -> (D[rhsE, r] /. rule1)]];
-  g = DomainWallMetric[Aw[r], d];
+  LoadGeometry[x, g];
   V = ghostPotential[W, etas, d];
-  ricci = RicciTensor[g, x];
+  ricci = RicciTensor;
   tTilde = -Sum[Outer[Times, #, #] &[D[f[r], #] & /@ x], {f, ef}] + 2/(d - 1) g (V /. toFields);
   residuals = Join[Flatten[ricci - 1/2 tTilde],
-    MapThread[ScalarLaplacian[#2[r], g, x] + (D[V, #1] /. toFields) &, {etas, ef}]];
+    MapThread[scalarLaplacian[#2[r]] + (D[V, #1] /. toFields) &, {etas, ef}]];
   residuals = residuals /. rule2 /. rule1 /. Thread[Through[ef[r]] -> etas];
   AssertZero[label <> ": BPS flows solve Einstein + ghost scalar equations", residuals]
 ];

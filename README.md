@@ -24,6 +24,8 @@ claude              # then run /init-project
 
 Requirements: TeX Live (`latexmk`, `pdflatex`), [uv](https://docs.astral.sh/uv/),
 Mathematica (optional for building the paper; generated outputs are committed).
+The paper is pdflatex-only (arXiv); in VS Code, LaTeX Workshop picks this up from the shared
+`.vscode/settings.json` (it runs `latexmk` with `paper/latexmkrc`, exactly like `make paper`).
 
 To let Claude Code run Mathematica, every collaborator installs the official
 [Wolfram MCP server](https://resources.wolframcloud.com/PacletRepository/resources/Wolfram/MCPServer/tutorial/QuickStartforAICodingApplications.html)
@@ -82,7 +84,8 @@ paper/            JHEP LaTeX (main.tex, sections/, macros.tex, references.bib)
   figures/        ← written by calc scripts
   images/         hand-made artwork (diagrams); the only non-generated figures
 calc/
-  mathematica/    Project.wl (shared package), scripts/NN_*.wl, notebooks/
+  mathematica/    Project.wl (pipeline infrastructure), packages/ (physics packages shared by
+                  notebooks and scripts), scripts/NN_*.wl, notebooks/
   python/         hepcalc/ package, scripts/NN_*.py, tests/, notebooks/
   other/          how to add FORM, Julia, C++, MadGraph, ...
 results/          numerical results (*.json) and analytic expressions (analytic/*.json)
