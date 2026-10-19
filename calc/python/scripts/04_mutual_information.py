@@ -81,17 +81,16 @@ export_values("04_mutual_information", values)
 
 plotting.use_paper_style()
 fig, ax = plotting.figure(width=0.7)
-for key, (d, label, colour, *_ ) in EXAMPLES.items():
+for key, (d, _label, colour, *_ ) in EXAMPLES.items():
     width, info, m, n = curves[key]
     shown = width < 3.0
-    ax.plot(width[shown], info[shown], "o", ms=2.5, color=colour, label=label)
+    ax.plot(width[shown], info[shown], "o", ms=2.5, color=colour)
     w = np.linspace(1.0, 3.0, 50)
     ax.plot(w, m * w + n, "--", lw=0.9, color=colour)
 ax.set_xlim(0, 3)
 ax.set_ylim(-0.1, 4)
 ax.set_xlabel(r"$\Delta\ell(\mathrm{A})/L$")
 ax.set_ylabel(r"$I(\mathrm{A})/(\mathcal{C}\,V)$")
-ax.legend(frameon=False, loc="upper left")
 plotting.save(fig, "mutual_information")
 
 print("04_mutual_information: OK  " + ", ".join(
