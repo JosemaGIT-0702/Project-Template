@@ -123,7 +123,8 @@ CLAUDE.md         project instructions for the agent
 `CLAUDE.md` describes the project and its non-negotiables (no hand-typed numbers,
 every result cross-checked, conventions in `notes/conventions.md`, INSPIRE-only
 citations). Rules in `.claude/rules/` load automatically when the agent touches
-LaTeX, Mathematica or Python files; the physics rules (`physics.md`) are always loaded. Mathematica is driven through the official Wolfram MCP
+LaTeX, Mathematica or Python files; the physics rules (`physics.md`) and the coding
+guidelines (`coding.md`, adapted from andrej-karpathy-skills) are always loaded. Mathematica is driven through the official Wolfram MCP
 server (installed globally, see Quick start; `WolframLanguageEvaluator`, see `CLAUDE.md`), not `wolframscript`.
 
 | Skill | What it does |

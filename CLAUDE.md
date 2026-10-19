@@ -29,7 +29,7 @@ regenerated with `make all`.
 | `notes/` | `conventions.md`, `log.md` (research log), `derivations/` (hand derivations in Markdown/LaTeX) |
 | `literature/` | Paper notes, one Markdown file per INSPIRE texkey |
 | `tools/` | `run-calcs.sh` (used by `make calc`), `make-arxiv.sh`, `nbstrip.py` (notebook git filter) |
-| `.claude/` | `rules/` (instructions, mostly path-scoped), `skills/`, `settings.json` (permissions, hooks) |
+| `.claude/` | `rules/` (instructions: `physics.md` and `coding.md` always loaded, the rest path-scoped), `skills/`, `settings.json` (permissions, hooks) |
 
 ## The pipeline
 

@@ -4,6 +4,12 @@ Newest entries on top. One entry per working session: what was done, what was
 found, what is open. Agents add entries here via `/log`.
 
 ## 2026-10-19
+- Done: added `.claude/rules/coding.md` (always loaded), adapted from andrej-karpathy-skills (MIT,
+  upstream commit 2c60614): think before coding, simplicity first, surgical changes, goal-driven
+  execution, mapped to the repo (physics checks are required, not "speculative error handling";
+  verification via `AssertZero`/pytest/`make calc`/`make paper`; no prose rewording in `.tex`;
+  never edit generated files). Vendored instead of installing the plugin so coauthors get it and it
+  can't change upstream. `CLAUDE.md` layout row and `README.md` mention it.
 - Done: reviewed the template's structure for inconsistencies (example physics ignored).
   Fixed the docs (836e836): layout tables in `CLAUDE.md`/`README.md` (`tools/`, `.claude/`,
   `calc/python/notebooks/`, `hepcalc.paths`, `nbstrip.py`); `calc/other/` described as a README for
