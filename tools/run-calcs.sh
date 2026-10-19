@@ -9,7 +9,7 @@ cd "$(dirname "$0")/.."
 filter="${1:-}"
 langs="${LANGS:-wl py jl sh}"
 
-scripts=$(find calc/*/scripts -maxdepth 1 -type f -name "${filter}[0-9]*" 2>/dev/null \
+scripts=$(find calc/*/scripts -maxdepth 1 -type f -name "[0-9]*" -name "${filter}*" 2>/dev/null \
 	| awk -F/ '{print $NF"\t"$0}' | sort | cut -f2 || true)
 
 if [ -z "$scripts" ]; then

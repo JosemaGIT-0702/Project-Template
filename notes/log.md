@@ -1,7 +1,28 @@
 # Research log
 
 Newest entries on top. One entry per working session: what was done, what was
-found, what is open. Agents append here via `/log`.
+found, what is open. Agents add entries here via `/log`.
+
+## 2026-10-19
+- Done: reviewed the template's structure for inconsistencies (example physics ignored).
+  Fixed the docs (836e836): layout tables in `CLAUDE.md`/`README.md` (`tools/`, `.claude/`,
+  `calc/python/notebooks/`, `hepcalc.paths`, `nbstrip.py`); `calc/other/` described as a README for
+  sibling `calc/<tool>/` dirs; log entries go on top (`CLAUDE.md`, `/new-calc`, this header);
+  `/sync-results` detects a failed `.wl` by `CHECK FAILED`/`$Aborted`, not `Exit[1]`; `make setup`
+  row mentions the nbstrip filter; `physics.md` noted as always loaded; Python rule covers
+  `tools/*.py`; `AssertZero` docs say 10 s (as the code); `wolfram -script` dropped from the docs
+  (only the Wolfram MCP and `wolframscript` via `make calc` are used); `.claude/settings.json` layout.
+- Done: fixed `tools/run-calcs.sh`: `make calc ONLY=03` matched nothing (pattern `03[0-9]*`); the
+  filter is now a filename prefix (`-name "[0-9]*" -name "${ONLY}*"`).
+- Results (verified with stubbed runners, nothing executed): `ONLY=03` selects only
+  `03_ghost_spectrum.py`; no filter still runs all scripts in global order across languages; a
+  filter matching nothing exits 1; an empty project exits 0. No outputs in `results/` changed.
+- Open: rerun noise (timestamp in `ExportAnalytic` JSON, `CreationDate` in matplotlib PDFs); CI does
+  not check committed outputs are current; deny rules miss `results/` and `paper/figures/`; Jupyter
+  notebooks are not stripped; preamble packages without comments (`epsfig`, `bbm`, `verbatim`
+  unused; `bbold` may override `\mathbb`); `mpmath` not declared in `pyproject.toml`.
+- Next: (1) fix the rerun noise, then add a CI check that outputs are current; (2) extend the deny
+  rules and decide on Jupyter output stripping; (3) clean up the `main.tex` preamble.
 
 ## 2026-10-17
 - Done: replaced the community Mathematica MCP by the official Wolfram MCP server
