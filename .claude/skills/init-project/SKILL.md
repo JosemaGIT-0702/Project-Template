@@ -56,8 +56,10 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
    installed packages (xAct, FeynCalc, ...) are loaded with `Needs[...]` after `ScriptBegin` in the
    scripts that use them (note this in `.claude/rules/mathematica.md`) and checked to load via the
    Wolfram MCP. Do not put physics in `Project.wl`.
-6. **Python**: rename the project in `pyproject.toml` (`name`, keep package `hepcalc`), `uv sync` (this
-   updates `uv.lock`, which is committed).
+6. **Python and tooling**: rename the project in `pyproject.toml` (`name`, keep package `hepcalc`),
+   then run `make setup`: `uv sync` (this updates `uv.lock`, which is committed), registers the
+   `nbstrip` git filter for notebooks, and warns if `latexmk` or `wolframscript` is missing (report
+   any warning to the user).
 7. **Verify**: `make calc-py`, `make test` and `make paper` all succeed (with no
    calculations yet, `make calc-py` just prints a note). Unless the example was kept,
    `git grep -lI --untracked -E "2605\.16168|wormhole|ghost|warp_ex|valMI|valMSq" -- paper calc notes CLAUDE.md README.md`
