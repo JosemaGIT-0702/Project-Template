@@ -22,7 +22,7 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
      `calc/python/scripts/05_ghost_spectrum_ex2.py`;
    - delete every file in `results/` and `results/analytic/`, every `paper/generated/eq_*.tex`,
      `paper/figures/mutual_information.pdf`, `paper/images/tachyoncondensation.png`
-     (keep the `.gitkeep` files);
+     (keep the `.gitkeep` files, so the emptied folders stay in git);
    - delete all of `paper/sections/*.tex` and create `introduction.tex`, `setup.tex`,
      `results.tex`, `conclusions.tex` and `appendix.tex`, each with only its `\section{}` +
      `\label{}` and one `\todo{}` derived from the physics goal; update the `\input`s in
