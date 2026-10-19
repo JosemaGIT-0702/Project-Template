@@ -52,11 +52,11 @@ calc/python/scripts/02_*.py ◀── hepcalc.bridge (sympy) ──┘          
                             ──plotting.save──▶ paper/figures/*.pdf  │
                                     make values ◀───────────────────┘
                                           ▼
-                     paper/generated/values.tex  (\valMISlopeExOne, ...)  ──▶  make paper
+                     paper/generated/values.tex  (\valCRatio, ...)  ──▶  make paper
 ```
 
-- **Numbers** in the paper are macros: a script exports `"MISlopeExOne" -> 1.41421` and the
-  paper writes `\valMISlopeExOne`. Change the calculation, run `make all`, the paper updates.
+- **Numbers** in the paper are macros: a script exports `"CRatio" -> 0.5` and the
+  paper writes `\valCRatio`. Change the calculation, run `make all`, the paper updates.
 - **Equations** from Mathematica are exported as TeX and `\input` in the paper.
 - **Analytic → numeric**: Python loads Mathematica results with `hepcalc.bridge.lambdify`.
 - Scripts are numbered globally (`01_…wl`, `02_…py`) and run in order by `make calc`.

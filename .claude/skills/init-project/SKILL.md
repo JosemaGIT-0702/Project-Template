@@ -29,16 +29,19 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
      `\label{}` and one `\todo{}` derived from the physics goal; update the `\input`s in
      `main.tex` to match;
    - reset `paper/references.bib` to its 3-line header comment;
-   - keep the preamble of `main.tex` (packages, `\crefalias`) as is; in `paper/macros.tex` keep the
-     abbreviation, general and editing blocks and drop the macros marked "example paper";
-   - in `README.md`, replace the paragraph about the example (search for "2605.16168");
+   - keep the preamble of `main.tex` (packages, `\crefalias`) as is; in `paper/macros.tex` keep every
+     generic block (abbreviations, general, quantum mechanics / field theory, editing) and delete only
+     the lines marked "example paper";
+   - in `README.md`, replace the paragraph about the example and its table of scripts (search for
+     "2605.16168", up to "`/init-project` removes the example.") by one sentence saying that the
+     calculations are listed in run order in `calc/*/scripts/` and logged in `notes/log.md`;
    - in `CLAUDE.md`, delete the "## The example" section;
-   - run `make values`: `values.tex` must then contain only its header comment, and
-     `grep -rln "2605.16168\|wormhole\|ghost\|eq_warp\|valMI\|valMSq" paper calc notes CLAUDE.md README.md`
-     must find nothing.
+   - reset `notes/log.md` to its header (everything above the first `## ` entry); step 8 writes the
+     project's first entry;
+   - run `make values`: `values.tex` must then contain only its header comment.
 4. **Conventions**: rewrite `notes/conventions.md` with the project's conventions (keep its
-   headings), and propagate to `calc/mathematica/Project.wl` (header comment), `calc/mathematica/packages/README.md`
-   (how each package's conventions map to the project's: never edit the packages themselves; if the
+   headings; drop the sentence about the example paper's entries), and propagate to
+   `calc/mathematica/Project.wl` (header comment), `calc/mathematica/packages/README.md` (how each package's conventions map to the project's: never edit the packages themselves; if the
    signature or curvature sign differs from `supergrav.wl`'s, state the conversion there and in
    `.claude/rules/mathematica.md`), `calc/python/hepcalc/constants.py`
    and `paper/macros.tex`. Put a short conventions paragraph in `sections/appendix.tex`.
@@ -50,8 +53,16 @@ Interview the user briefly (one round of questions, using AskUserQuestion), then
    installed packages (xAct, FeynCalc, ...) are loaded with `Needs[...]` after `ScriptBegin` in the
    scripts that use them (note this in `.claude/rules/mathematica.md`) and checked to load via the
    Wolfram MCP. Do not put physics in `Project.wl`.
-6. **Python**: rename the project in `pyproject.toml` (`name`, keep package `hepcalc`), `uv sync`.
+6. **Python**: rename the project in `pyproject.toml` (`name`, keep package `hepcalc`), `uv sync` (this
+   updates `uv.lock`, which is committed).
 7. **Verify**: `make calc-py`, `make test` and `make paper` all succeed (with no
-   calculations yet, `make calc-py` just prints a note). Report what changed.
-8. Replace the template entry in `notes/log.md` with the project's first entry, update
-   the `README.md` title/description, and offer to make the initial commit.
+   calculations yet, `make calc-py` just prints a note). Unless the example was kept,
+   `git grep -lI --untracked -E "2605\.16168|wormhole|ghost|warp_ex|valMI|valMSq" -- paper calc notes CLAUDE.md README.md`
+   must find nothing (`git grep` skips ignored build files such as `main.aux`); every hit is a
+   leftover of the example: fix it. Report what changed.
+8. Write the project's first entry in `notes/log.md` (date, goal, conventions, next steps). In
+   `README.md`: replace the title and first paragraph with the project's; in "Quick start", replace
+   the "Use this template" instructions (and the `gh repo create --template` note) by what a
+   coauthor does: clone this repository, `make setup`, `make all`, `claude`; keep the
+   requirements and the Wolfram MCP setup. Check `git log` (the user may already have committed),
+   then offer to make the initial commit.
