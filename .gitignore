@@ -36,5 +36,7 @@ literature/pdf/
 
 # OS / editors
 .DS_Store
-.vscode/
+.vscode/*
+# .vscode/settings.json is shared: LaTeX Workshop builds with paper/latexmkrc (pdflatex)
+!.vscode/settings.json
 *.swp
