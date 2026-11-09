@@ -16,7 +16,7 @@
   - **numerics**: convergence in resolution/cutoffs, agreement between two methods;
   - **literature**: compare with a published result (quote equation numbers and convert
     conventions explicitly).
-- When comparing with a paper, record in `literature/<texkey>.md` the conventions it
+- When comparing with a paper, record in `literature/<texkey>.md` (`:` replaced by `_`) the conventions it
   uses and how they map to `notes/conventions.md`.
 - Distinguish clearly between what was computed/verified and what is conjectured or
   recalled from memory. Never present an unverified formula as established.

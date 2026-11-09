@@ -27,7 +27,7 @@ regenerated with `make all`.
 | `results/` | `*.json` numerical results, `analytic/*.json` exported expressions |
 | `data/raw/` | External inputs (read-only). `data/processed/` is generated |
 | `notes/` | `conventions.md`, `log.md` (research log), `derivations/` (hand derivations in Markdown/LaTeX) |
-| `literature/` | Paper notes, one Markdown file per INSPIRE texkey |
+| `literature/` | Paper notes, one Markdown file per INSPIRE texkey, `:` replaced by `_` (`Maldacena_2018lmt.md`) |
 | `tools/` | `run-calcs.sh` (used by `make calc`), `make-arxiv.sh`, `nbstrip.py` (notebook git filter) |
 | `.claude/` | `rules/` (instructions: `physics.md` and `coding.md` always loaded, the rest path-scoped), `skills/`, `settings.json` (permissions, hooks) |
 

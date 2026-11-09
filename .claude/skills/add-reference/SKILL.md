@@ -18,7 +18,7 @@ Query: `$ARGUMENTS`
 2. If the texkey is already in `paper/references.bib`, say so and stop.
 3. Append the entry unchanged (keep the INSPIRE texkey as the key).
 4. Tell the user the key to use: `\cite{Key}`. If asked to insert it, put it where it belongs.
-5. Optionally (ask) create `literature/<texkey>.md` from the abstract
+5. Optionally (ask) create `literature/<texkey with : replaced by _>.md` (e.g. `Maldacena_2018lmt.md`) from the abstract
    (`https://inspirehep.net/api/literature?q=texkey:<key>&fields=abstracts`): summary,
    conventions, results relevant to us -- clearly marking what comes from the abstract
    versus what still needs reading.

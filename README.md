@@ -104,7 +104,7 @@ calc/
 results/          numerical results (*.json) and analytic expressions (analytic/*.json)
 data/             raw/ (inputs, read-only), processed/ (generated, git-ignored)
 notes/            conventions.md, log.md (research log), derivations/
-literature/       one note per paper (INSPIRE texkey)
+literature/       one note per paper (INSPIRE texkey, `:` -> `_`)
 tools/            run-calcs.sh, make-arxiv.sh, nbstrip.py (notebook git filter)
 .claude/          rules/ (instructions, mostly path-scoped), skills/, settings.json
 CLAUDE.md         project instructions for the agent
