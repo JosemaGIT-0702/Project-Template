@@ -2,6 +2,8 @@
 	"recommendations": [
 		"anthropic.claude-code",
 		"charliermarsh.ruff",
+		"ms-python.python",
+		"ms-toolsai.jupyter",
 		"james-yu.latex-workshop",
 		"editorconfig.editorconfig"
 	]
