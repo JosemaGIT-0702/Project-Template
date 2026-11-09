@@ -25,9 +25,9 @@ More specifically, in the radial coordinate $r\in\left(-\infty,+\infty\right)$, 
 	=     
 	0,
 \end{align}
-where the background solution $\eta_0$ for the field $\eta$ is given in \eqref{eq:sol2} (there, we dropped the subindex 0).
+where the background solution $\eta_0$ for the field $\eta$ is given in \cref{eq:sol2} (there, we dropped the subindex 0).
 For convenience, we have also indicated the warp factor as $a\equiv e^{2A}$.
-The potential $V$ is derived from the superpotential $W$ given in \eqref{eq:Wex2} according to the general formula \eqref{eq:VfromW},
+The potential $V$ is derived from the superpotential $W$ given in \cref{eq:Wex2} according to the general formula \labelcref{eq:VfromW},
 \begin{eqnarray}
 	V(\eta)
 	=
@@ -57,7 +57,7 @@ with $v\in\left[-1,1\right]$ and $v_0$, $L$ real positive constants, we obtain t
 where $M^2/L^2 = \omega^2-k^2$ and the prime denotes the derivative with respect to $v$.
 This equation admits an analytical solution, we avoid writing it here because it is quite involved%
 \footnote{The full solution can be found in \cite{code}.}.
-It is important to note that the equation \eqref{eq:zeta} is singular at $v=0$, within the domain $v\in\left[-1,1\right]$.
+It is important to note that the equation \labelcref{eq:zeta} is singular at $v=0$, within the domain $v\in\left[-1,1\right]$.
 Thus, we need to impose regularity conditions there to the fluctuating modes.
 Interestingly, this splits the study of the fluctuations $z_\eta$ in two subproblems defined on the positive and negative domain for $v$, respectively.
 This happens only for the fluctuation of the ghost scalar, for the fluctuations involving only the metric, the only singular points in the equations are at $v=\pm 1$ and the spectrum splits according to parity in the holographic direction to $v\to -v$.
@@ -67,7 +67,7 @@ In addition to the regularity requirement at $v=0$, we impose that the fall-off 
 Since we need to consider alternative quantization, we actually enforce that the ratio of the subleading coefficient over the leading one vanishes.
 This allows us to read the values of $M^2$ for which this occurs, namely the squared masses of the normal modes.
 The results concerning the three lowest-lying modes are reported in \cref{tab:spectra}.
-Given the parity symmetry of the equation \eqref{eq:zeta}, the subproblem concerning the positive $v$ domain is identical to the problem on the negative $v$ domain.
+Given the parity symmetry of the equation \labelcref{eq:zeta}, the subproblem concerning the positive $v$ domain is identical to the problem on the negative $v$ domain.
 
 \begin{table}
 	\centering
@@ -104,14 +104,14 @@ The equation for $Z_\eta$ in example 1 is
 	=     
 	0\,,
 \end{align}
-where the background profile of the scalar $\eta$ is given in \eqref{eq:sol1} and $a= e^{2A}$.
-The potential is derived from the superpotential \eqref{eq:Wex1},
+where the background profile of the scalar $\eta$ is given in \cref{eq:sol1} and $a= e^{2A}$.
+The potential is derived from the superpotential \labelcref{eq:Wex1},
 \begin{eqnarray}
 	V(\eta)
 	=
 	\input{generated/eq_potential_ex1}\,.
 \end{eqnarray}
-One can again perform the same change of radial coordinate as in \eqref{eq:compa}, leading to
+One can again perform the same change of radial coordinate as in \cref{eq:compa}, leading to
 \begin{align}
 	\label{eq:zeta1}
 	z_\eta''
@@ -131,7 +131,7 @@ As in example 2, we find an equation which is singular at $v=0$.
 The problem splits in two, one for positive $v$ and another identical problem for negative $v$, because we need to require regularity of the solutions at $v=0$.
 As in the previous example, this only happens for the scalar fluctuation.
 
-Apparently, it is not easy to handle  equation \eqref{eq:zeta1} analytically.
+Apparently, it is not easy to handle  equation \labelcref{eq:zeta1} analytically.
 We resort to a spectral method discretized on a Gauss-Lobatto collocation grid and adopt Chebyshev polynomials as the basis functions.
 Let us focus on the subproblem in the negative $v\in\left[-1,0\right]$ domain.
 We redefine the fluctuating field $z_\eta$ in such a way that the boundary conditions reduce to the simple requirement of finiteness at the two extrema of the domain.
@@ -184,14 +184,14 @@ The results are presented in \cref{tab:spectra}.
 The values shown in the table for the lowest-lying eigenvalues $M^2$ are stable upon doubling the number of collocation points from $\valNCollocationCoarse$ to $\valNCollocationFine$.\\ 
 
 \noindent 
-\textbf{Example 5:} Here, we have two ghost fields, $\eta_{1,2}$, and we can construct the associated gauge-invariant combinations according to \eqref{eq:zetaeta}; let us denote these latter with $Z_{1,2}$. %At vanishing spatial momentum, 
+\textbf{Example 5:} Here, we have two ghost fields, $\eta_{1,2}$, and we can construct the associated gauge-invariant combinations according to \cref{eq:zetaeta}; let us denote these latter with $Z_{1,2}$. %At vanishing spatial momentum, 
 Although $Z_{1,2}$ do not source the gauge-invariant modes $H$ of the metric, still $Z_1$ and $Z_2$ are coupled to each other. 
 
 In units $L=1$, so that $u=r$, they satisfy (with a sum over $b$)
 \begin{equation}
 	Z_a''+4A'Z_a'+\left(e^{-2A}M^2\delta_{ab}+Q_{ab}\right)Z_b=0\,,\qquad a=1,2\,,
 \end{equation}
-with the warp factor \eqref{eq:warp5} and
+with the warp factor \labelcref{eq:warp5} and
 \begin{align}
 	Q_{11} &= \input{generated/eq_ghost_ex5_Q11}\,, \\
 	Q_{12} &= Q_{21} = \input{generated/eq_ghost_ex5_Q12}\,, \\

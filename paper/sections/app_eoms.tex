@@ -128,7 +128,7 @@ The equation for the $\mu\nu$ components is
 =-2\partial_r\left(\partial_{(\mu}h_{\nu)r}\right)-2(d-2)A'\partial_{(\mu}h_{\nu)r}-2A' g_{\mu\nu}\partial^\alpha h_{\alpha r}
 \\ \nonumber&=-2e^{-(d-2)A}\partial_{(\mu}\partial_r\left( e^{(d-2)A} h_{\nu)r}\right)\,,
 \end{align}
-where we used \eqref{eq:transvapp} in the last step.
+where we used \cref{eq:transvapp} in the last step.
 
 A scalar fluctuation corresponds to the ansatz
 \begin{equation}
@@ -158,8 +158,8 @@ Thus, we get
 	\,,\qquad
 	\partial_r h_S=\frac{(\eta_0')^2}{d-1}\tau(x)\,.
 \end{equation}
-One can check that the last equation in \eqref{eq:dilatonmode} is satisfied using the first order equations and the definition of the potential in terms of the superpotential.
-Usually this would be the dilaton mode, but, if we integrate the equation for $h_S$ in \eqref{eq:dilatonsolution}, we cannot fix the integration constant in such a way that $h_S$ vanishes at both boundaries.
+One can check that the last equation in \labelcref{eq:dilatonmode} is satisfied using the first order equations and the definition of the potential in terms of the superpotential.
+Usually this would be the dilaton mode, but, if we integrate the equation for $h_S$ in \cref{eq:dilatonsolution}, we cannot fix the integration constant in such a way that $h_S$ vanishes at both boundaries.
 Thus, the would-be dilaton mode cannot be made normalizable at both boundaries simultaneously.
 
 \subsubsection{Equations in radial gauge for a single ghost field}
@@ -229,7 +229,7 @@ Taking also into account that these modes are transverse and traceless, one gets
 	H''+(d-4)A' H'+\left[e^{-2A}M^2+4(A')^2+\frac{2}{d-1}V_0\right]H=0\,,
 \end{equation}
 where we have defined $k^2=k^\mu k_\mu=-M^2$.
-We can combine \eqref{eq:Einsbackg} to replace the potential evaluated in the background solution by
+We can combine \cref{eq:Einsbackg} to replace the potential evaluated in the background solution by
 \begin{equation}
 	V_0=-d(d-1)(A')^2-\frac{1}{2}(\eta_0')^2\,.
 \end{equation}
@@ -243,15 +243,15 @@ To derive the equation for the remaining mode, we introduce
 	\widehat H_S=\sum_{\alpha=1}^{d-2}e_\mu^\alpha e_\nu^\alpha H^{\mu\nu}, \quad H_L=\frac{k_\mu k_\nu}{k^2}H^{\mu\nu},
 \end{equation}
 in such a way that the trace is $h=e^{-2A}(H_S+(d-1)\widehat H_S+H_L)$.
-Then, from the equation for the ghost scalar \eqref{eq:chieq}, the $\mu r$ Einstein equations projected along the momentum, and the $\mu\nu$ Einstein equations projected on $\widehat H_S$ we get the set of equations
+Then, from the equation for the ghost scalar \labelcref{eq:chieq}, the $\mu r$ Einstein equations projected along the momentum, and the $\mu\nu$ Einstein equations projected on $\widehat H_S$ we get the set of equations
 \begin{eqnarray}
 \label{eq:scalarX} 0&=& X''+dA'X'+e^{-2A}M^2 X+\partial_\eta^2 V_0 X+\frac{1}{2}\eta_0' h',\\
 \label{eq:scalarCons} 0&=& H_S'-2A' H_S+(d-1)(\widehat H_S'-2A' \widehat H_S)-e^{2A}\eta_0' X,\\
 \label{eq:scalarhHS} 0&=& \widehat H_S''+(d-4) A' \widehat H_S'+\left[4(A')^2+\frac{V_0}{d-1}\right]\widehat H_S+\frac{2}{d-1}e^{2A}\partial_\eta V_0 X+e^{2A}A' h'.
 \end{eqnarray}
-We subtract \eqref{eq:scalarX}$-\frac{\eta_0'e^{-2A}}{2A'}\eqref{eq:scalarhHS}$ identifying the invariant combination \eqref{eq:zetaeta}.
-We remove additional terms proportional $\widehat H_S'$ solving for it in \eqref{eq:scalarCons}.
-The remaining terms depend on $H_S'$, $H_S$ and $\widehat H_S$, but using the equations for the background \eqref{eq:Einsbackg}, \eqref{eq:scalarbackg} one can show that the coefficient of the $\widehat H_S$ term cancels out, so one is left with an equation depending only on invariant quantities
+We subtract \labelcref{eq:scalarX}$-\frac{\eta_0'e^{-2A}}{2A'}\labelcref{eq:scalarhHS}$ identifying the invariant combination \labelcref{eq:zetaeta}.
+We remove additional terms proportional $\widehat H_S'$ solving for it in \cref{eq:scalarCons}.
+The remaining terms depend on $H_S'$, $H_S$ and $\widehat H_S$, but using the equations for the background \labelcref{eq:Einsbackg,eq:scalarbackg} one can show that the coefficient of the $\widehat H_S$ term cancels out, so one is left with an equation depending only on invariant quantities
 \begin{equation}\label{eq:invariantZeq}
 	0=Z_\eta''+dA' Z_\eta'+\left(e^{-2A}M^2+Q_{ZZ}\right)Z_\eta+Q_{ZH}(H_S'-2A' H_S),
 \end{equation}
@@ -260,7 +260,7 @@ with
 	Q_{ZZ}&=& \partial_\eta^2V_0-\frac{1}{d-1}\frac{\eta_0'}{A'}\partial_\eta V_0-\eta_0' e^{2A} Q_{ZH},\\
 	Q_{ZH} &=& \frac{e^{-2A}}{d-1}\frac{\eta_0'A''-A'\eta_0''}{(A')^2}.
 \end{eqnarray}
-Using the background equations of motion \eqref{eq:Einsbackg}, \eqref{eq:scalarbackg} one can also write
+Using the background equations of motion \labelcref{eq:Einsbackg,eq:scalarbackg} one can also write
 \begin{equation}\label{eq:Qcoef2}
 	\eta_0'A''-A'\eta_0''=A'\partial_\eta V_0+d(A')^2\eta_0'+\frac{(\eta_0')^3}{2(d-1)}.
 \end{equation}

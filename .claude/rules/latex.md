@@ -17,8 +17,12 @@ paths:
 - Numbers from calculations: `\val<Key>` only. Never type a computed number.
 - Generated equations: `\input{generated/eq_<name>}` inside the math environment.
 - Cross-references with `\cref{}` (`\cref{sec:x}` -> "Section 2", `\cref{eq:x}` -> "Eq. (2.1)",
-  `\cref{eq:a,eq:b}` -> "Eqs. (2.1) and (2.2)", "Fig. 1", "Table 1", "Appendix A"); `\eqref`/`\ref`
-  are fine too. Keep `\crefalias{section}{appendix}` after `\appendix` in `main.tex` (jheppub needs it). Labels prefixed `sec:`, `eq:`, `fig:`, `tab:`, `app:`.
+  `\cref{eq:a,eq:b}` -> "Eqs. (2.1) and (2.2)", `\cref{fig:x}` -> "Fig. 1", `\cref{tab:x}` -> "Table 1",
+  `\cref{app:x}` -> "Appendix A"); do not use `\eqref`/`\ref`. For a bare number use `\labelcref`
+  (`\labelcref{eq:x}` -> "(2.1)"): inside math, or after a noun that already names the object
+  ("the metric \labelcref{eq:x}", not "the metric Eq. (2.1)").
+  Keep `\crefalias{section}{appendix}` after `\appendix` in `main.tex` (jheppub needs it).
+  Labels prefixed `sec:`, `eq:`, `fig:`, `tab:`, `app:`.
 - Every displayed equation that is referenced gets a `\label`; end displayed equations
   with punctuation (`\,.` / `\,,`) as part of the sentence.
 - Citations: INSPIRE texkeys only (`Author:YYYYxx`). Never invent a key; use `/add-reference`.
