@@ -15,9 +15,12 @@ then:
 git clone git@github.com:<you>/<my-project>.git
 cd <my-project>
 make setup          # uv env, notebook git filter, tool check
-make all            # calculations -> values -> paper/main.pdf
+make paper          # optional: check that the example paper builds
 claude              # then run /init-project
 ```
+
+To also check the full pipeline (including Mathematica) on the example, run `make all`
+before `/init-project`; the example and its outputs are removed afterwards.
 
 (With the GitHub CLI the first step is
 `gh repo create <my-project> --private --template <you>/Project-Template --clone`.)
