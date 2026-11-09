@@ -8,7 +8,8 @@ paths:
 
 - One sentence per line in `.tex` files (clean git diffs).
 - Default preamble (keep it): `xcolor`, `cite`, `fontenc` [T1], `babel`, `amsmath`/`mathtools`, `xspace`,
-  `mathrsfs` (INSPIRE titles), `jheppub`, then `cleveref` [capitalise] last. Add other packages
+  `mathrsfs` (INSPIRE titles), `jheppub` (with its "Prepared for submission to JHEP" header blanked:
+  the preprint is not tied to a journal), then `cleveref` [capitalise] last. Add other packages
   only when the text needs them, with a comment saying why.
 - Notation only via `macros.tex`; add a macro rather than repeating raw markup.
 - Abbreviations are `xspace` macros in `macros.tex`: `\eg`, `\ie`, `\cf`, `\etc`, `\etal`, `\wrt`
